@@ -794,82 +794,99 @@ window.loadScanCandidates=function(candidates){
 };
 
 // EXECUTIVE VIEW
+function lssSev(t){
+  var n=((t.notas||'')+' '+(t.t||'')).toLowerCase();
+  var p=(t.prio||'').toUpperCase();
+  if(/embargo|holding|accionistas|\brfc\b|fracci|clasific|bloqueante total|no se avanza|\bmsa\b/.test(n))return 5;
+  if(p==='URGENTE')return 4;
+  if(/sin\s+\S+.*no se|cr[ií]tico|bloquea/.test(n))return 4;
+  if(p==='ALTA')return 3;
+  return 2;
+}
+function lssProb(t){
+  var d=(t.days!=null?t.days:(TASK_CREATED[t.id]||0));
+  var p=(t.prio||'').toUpperCase();
+  var n=((t.notas||'')+' '+(t.t||'')).toLowerCase();
+  var s=2;
+  if(d>21)s=5;else if(d>14)s=4;else if(d>7)s=3;
+  if(p==='URGENTE')s=Math.max(s,4);
+  if(/sin due|sin claridad|cliente debe|arrendador|accionistas|tercero|pendiente respuesta|pendiente firma|pendiente turno/.test(n))s=Math.min(5,s+1);
+  return Math.min(5,Math.max(1,s));
+}
+function clientCat(c){return DATA.clients.arranques&&DATA.clients.arranques.includes(c)?'arranques':DATA.clients.expansiones&&DATA.clients.expansiones.includes(c)?'expansiones':'rollouts';}
+
 function renderExec(){
-  setEl('main-title','Vista Ejecutiva');
-  setEl('main-sub','Analisis de riesgo por cliente · retraso por departamento · tendencia semanal');
+  setEl('main-title','Ejecutivo · Torre de control de riesgos');
+  setEl('main-sub','Lean Six Sigma · severidad × probabilidad · FMEA · Pareto · aging');
   document.getElementById('filter-pills').style.display='none';
-  const all=allC();
+  var all=allC();
   if(!all.length){document.getElementById('board').innerHTML='<div class="empty-state"><div class="empty-icon"><i class="ti ti-chart-dots"></i></div><div class="empty-title">Sin datos</div></div>';return;}
-  const riskRows=all.map(c=>{
-    const tot=cnt(c),op=cnt(c,'open'),pr=cnt(c,'prog'),dn=cnt(c,'done');
-    const pct=tot>0?Math.round(dn/tot*100):0;
-    const openTasks=Object.values(c.tasks||{}).flat().filter(t=>t.s!=='done');
-    const maxAge=openTasks.length>0?Math.max.apply(null,openTasks.map(t=>TASK_CREATED[t.id]||14)):0;
-    const risk=maxAge>21||op>8?'HIGH':maxAge>7||op>4?'MED':'LOW';
-    const cat=DATA.clients.arranques&&DATA.clients.arranques.includes(c)?'arranques':DATA.clients.expansiones&&DATA.clients.expansiones.includes(c)?'expansiones':'rollouts';
-    return{c,tot,op,pr,dn,pct,maxAge,risk,cat};
-  }).sort((a,b)=>b.op-a.op);
-  const deptDelay=DEPTS.map(dept=>{
-    const tasks=[];all.forEach(c=>(c.tasks&&c.tasks[dept]||[]).forEach(t=>{if(t.s!=='done')tasks.push(t);}));
-    const avg=tasks.length>0?Math.round(tasks.reduce((s,t)=>s+(t.days!=null?t.days:(TASK_CREATED[t.id]||14)),0)/tasks.length):0;
-    return{dept,count:tasks.length,avg};
-  }).filter(d=>d.count>0).sort((a,b)=>b.avg-a.avg);
-  const totalTasks=all.reduce((s,c)=>s+cnt(c),0);
-  const weeks=['Sem-4','Sem-3','Sem-2','Sem-1','Esta sem'];
-  const trendData=weeks.map((w,i)=>{
-    const done=Math.round(totalTasks*(0.3+i*0.07));
-    const open=Math.round(totalTasks*(0.7-i*0.05));
-    return{w,done,open};
+
+  var clientRisk=[];
+  all.forEach(function(c){
+    var best=null;
+    Object.keys(c.tasks||{}).forEach(function(dept){
+      (c.tasks[dept]||[]).forEach(function(t){
+        if(t.s==='done')return;
+        var s=lssSev(t),p=lssProb(t),rpn=s*p;
+        if(!best||rpn>best.rpn)best={s:s,p:p,rpn:rpn,risk:t.t||'',dept:dept};
+      });
+    });
+    if(best)clientRisk.push({c:c,cat:clientCat(c),s:best.s,p:best.p,rpn:best.rpn,risk:best.risk,dept:best.dept});
   });
-  const maxTrend=Math.max.apply(null,trendData.map(d=>d.done+d.open))||1;
-  const totalOpen=all.reduce((s,c)=>s+cnt(c,'open'),0);
-  const totalDone=all.reduce((s,c)=>s+cnt(c,'done'),0);
-  const highRisk=riskRows.filter(r=>r.risk==='HIGH').length;
-  const pctGlobal=Math.round(totalDone/(totalOpen+totalDone||1)*100);
-  let riskHtml='';
-  riskRows.forEach(function(row){
-    var c=row.c,op=row.op,dn=row.dn,pct=row.pct,maxAge=row.maxAge,risk=row.risk,cat=row.cat;
-    var typeColors={arranques:'background:#EFF6FF;color:#1D4ED8',expansiones:'background:#F0FDF4;color:#15803D',rollouts:'background:#FEF2F2;color:#B91C1C'};
-    var ageColor=maxAge>21?'var(--r)':maxAge>7?'var(--a)':'var(--g)';
-    var pbarClass=pct>=70?'l':pct>=40?'m':'h';
-    riskHtml+='<tr onclick="selClient(\''+esc(c.name)+'\',\''+cat+'\');setTab(\'tracker\')">';
-    riskHtml+='<td style="font-weight:600;color:var(--gray900)">'+c.name+'</td>';
-    riskHtml+='<td><span style="font-size:10px;padding:2px 8px;border-radius:7px;font-weight:600;'+typeColors[cat]+'">'+TYPE_LABELS[cat]+'</span></td>';
-    riskHtml+='<td><span class="risk-badge risk-'+risk.toLowerCase()+'">'+risk+'</span></td>';
-    riskHtml+='<td>'+(op>0?'<strong style="color:var(--r)">'+op+'</strong>':op)+'</td>';
-    riskHtml+='<td>'+(maxAge>0?'<span style="color:'+ageColor+';font-weight:600">'+maxAge+'d</span>':'—')+'</td>';
-    riskHtml+='<td><div style="display:flex;align-items:center;gap:7px"><div class="pbar"><div class="pbar-fill '+pbarClass+'" style="width:'+pct+'%"></div></div><span style="font-size:10px;color:var(--gray400);font-weight:600">'+pct+'%</span></div></td>';
-    riskHtml+='</tr>';
+  clientRisk.sort(function(a,b){return b.rpn-a.rpn;});
+
+  var critCount=clientRisk.filter(function(r){return r.rpn>=15;}).length;
+  var openBlockers=0,maxAge=0,totalOpen=0,totalDone=0,deptBlock={},ageB={a:0,b:0,c:0};
+  all.forEach(function(c){
+    Object.keys(c.tasks||{}).forEach(function(dept){
+      (c.tasks[dept]||[]).forEach(function(t){
+        if(t.s==='done'){totalDone++;return;}
+        totalOpen++;
+        var rpn=lssSev(t)*lssProb(t);
+        var d=(t.days!=null?t.days:(TASK_CREATED[t.id]||0));
+        if(d>maxAge)maxAge=d;
+        if(rpn>=8){openBlockers++;deptBlock[dept]=(deptBlock[dept]||0)+1;}
+        if(d>21)ageB.c++;else if(d>7)ageB.b++;else ageB.a++;
+      });
+    });
   });
-  let delayHtml='';
-  if(deptDelay.length===0)delayHtml='<div style="font-size:12px;color:var(--gray400);padding:16px 0;text-align:center">Sin tareas activas</div>';
-  deptDelay.forEach(function(d){
-    var dc=d.avg>21?'red':d.avg>7?'amber':'green';
-    delayHtml+='<div class="delay-item"><div class="delay-icon">'+(DEPT_ICONS[d.dept]||'?')+'</div><div class="delay-info"><div class="delay-dept">'+d.dept+'</div><div class="delay-sub">'+d.count+' tarea'+(d.count>1?'s':'')+' activa'+(d.count>1?'s':'')+'</div></div><div class="delay-days '+dc+'">'+(d.avg>0?d.avg+'d':'—')+'</div></div>';
+  var pctGlobal=Math.round(totalDone/((totalOpen+totalDone)||1)*100);
+
+  function zoneVar(sc){return sc>=15?'--rl':sc>=8?'--al':'--gl';}
+  var matrix='';
+  for(var sv=5;sv>=1;sv--){
+    for(var pv=1;pv<=5;pv++){
+      var sc=sv*pv,chips='';
+      clientRisk.filter(function(r){return r.s===sv&&r.p===pv;}).forEach(function(r){
+        chips+='<button onclick="selClient(\''+esc(r.c.name)+'\',\''+r.cat+'\');setTab(\'tracker\')" style="display:block;width:100%;text-align:left;background:var(--card,#fff);border:1px solid var(--gray200);border-radius:5px;font-size:10px;padding:2px 5px;margin:2px 0;cursor:pointer;color:var(--gray900)">'+r.c.name+'</button>';
+      });
+      matrix+='<div style="background:var('+zoneVar(sc)+');border-radius:6px;padding:5px;min-height:54px;position:relative"><span style="position:absolute;top:3px;right:5px;font-size:9px;color:var(--gray400)">'+sc+'</span>'+chips+'</div>';
+    }
+  }
+
+  var fmea='';
+  clientRisk.slice(0,8).forEach(function(r){
+    var col=r.rpn>=15?'var(--r)':r.rpn>=8?'var(--a)':'var(--g)';
+    var rk=r.risk.length>42?r.risk.slice(0,42)+'…':r.risk;
+    fmea+='<tr onclick="selClient(\''+esc(r.c.name)+'\',\''+r.cat+'\');setTab(\'tracker\')"><td style="font-weight:600;color:var(--gray900)">'+r.c.name+'</td><td style="font-size:11px;color:var(--gray700)">'+rk+'</td><td style="font-size:10px;color:var(--gray400)">'+r.dept+'</td><td style="text-align:center">'+r.s+'</td><td style="text-align:center">'+r.p+'</td><td style="text-align:center;font-weight:700;color:'+col+'">'+r.rpn+'</td></tr>';
   });
-  let trendHtml='';
-  trendData.forEach(function(d){
-    trendHtml+='<div class="trend-row"><div class="trend-label">'+d.w+'</div><div class="trend-bar-wrap"><div class="trend-bar-open" style="width:'+(d.open/maxTrend*100)+'%"></div><div class="trend-bar-done" style="width:'+(d.done/maxTrend*100)+'%"></div></div><div class="trend-nums"><span style="color:var(--r)">'+d.open+'</span> / <span style="color:var(--g)">'+d.done+'</span></div></div>';
+
+  var deptArr=Object.keys(deptBlock).map(function(k){return{d:k,n:deptBlock[k]};}).sort(function(a,b){return b.n-a.n;});
+  var maxP=deptArr.length?deptArr[0].n:1,pareto='';
+  deptArr.forEach(function(x){
+    pareto+='<div style="display:flex;align-items:center;gap:8px;margin:5px 0;font-size:12px"><span style="width:90px;color:var(--gray700)">'+x.d+'</span><div style="flex:1;height:12px;background:var(--gray100,#ececec);border-radius:4px;overflow:hidden"><div style="height:100%;width:'+Math.round(x.n/maxP*100)+'%;background:var(--r);opacity:.8"></div></div><span style="font-weight:600;color:var(--gray900);width:18px;text-align:right">'+x.n+'</span></div>';
   });
-  var summaryHtml='';
-  if(highRisk>0)summaryHtml+='<div style="color:var(--r);font-weight:600;margin-bottom:4px">Alerta: '+highRisk+' cliente'+(highRisk>1?'s':'')+' en riesgo alto</div>';
-  else summaryHtml+='<div style="color:var(--g);font-weight:600;margin-bottom:4px">Sin clientes en riesgo alto</div>';
-  summaryHtml+='<div style="color:var(--gray700)">Avance general: <strong>'+pctGlobal+'%</strong> ('+totalDone+' de '+(totalOpen+totalDone)+' tareas)</div>';
-  if(deptDelay[0])summaryHtml+='<div style="color:var(--gray700);margin-top:3px">Dpto con mas retraso: <strong>'+deptDelay[0].dept+'</strong> ('+deptDelay[0].avg+'d prom)</div>';
-  document.getElementById('board').innerHTML='<div style="overflow-y:auto;flex:1;padding:0;display:flex;flex-direction:column;gap:12px">'+
-    '<div class="exec-card"><div class="exec-card-title"><i class="ti ti-alert-triangle"></i> Semaforo de riesgo por cliente</div>'+
-    '<table class="risk-table"><thead><tr><th>Cliente</th><th>Tipo</th><th>Riesgo</th><th>Open</th><th>Max dias</th><th style="min-width:100px">Avance</th></tr></thead><tbody>'+riskHtml+'</tbody></table></div>'+
-    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">'+
-    '<div class="exec-card"><div class="exec-card-title"><i class="ti ti-clock-exclamation"></i> Retraso por departamento</div>'+delayHtml+'</div>'+
-    '<div class="exec-card"><div class="exec-card-title"><i class="ti ti-trending-up"></i> Tendencia semanal</div>'+
-    '<div style="display:flex;gap:12px;margin-bottom:10px;font-size:10px">'+
-    '<span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:var(--r);opacity:.8;display:inline-block"></span>Pendientes</span>'+
-    '<span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:var(--g);opacity:.8;display:inline-block"></span>Completadas</span></div>'+
-    trendHtml+
-    '<div style="margin-top:14px;padding:12px;background:var(--gray50);border-radius:var(--r-md);border:1px solid var(--gray200)">'+
-    '<div style="font-size:10px;font-weight:700;color:var(--gray400);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">Resumen ejecutivo</div>'+
-    '<div style="font-size:12px;color:var(--gray700);line-height:1.8">'+summaryHtml+'</div></div>'+
-    '</div></div></div>';
+  if(!deptArr.length)pareto='<div style="font-size:12px;color:var(--gray400);padding:10px 0">Sin bloqueantes</div>';
+
+  function ageRow(lbl,n,tot,col){var w=tot?Math.round(n/tot*100):0;return '<div style="display:flex;align-items:center;gap:8px;margin:5px 0;font-size:12px"><span style="width:64px;color:var(--gray700)">'+lbl+'</span><div style="flex:1;height:12px;background:var(--gray100,#ececec);border-radius:4px;overflow:hidden"><div style="height:100%;width:'+w+'%;background:'+col+';opacity:.85"></div></div><span style="font-weight:600;color:var(--gray900);width:18px;text-align:right">'+n+'</span></div>';}
+  var agingTot=ageB.a+ageB.b+ageB.c;
+  var aging=ageRow('0–7 d',ageB.a,agingTot,'var(--g)')+ageRow('8–21 d',ageB.b,agingTot,'var(--a)')+ageRow('22+ d',ageB.c,agingTot,'var(--r)');
+
+  function tile(l,v,col){return '<div style="background:var(--gray50);border-radius:8px;padding:10px 12px"><div style="font-size:11px;color:var(--gray400)">'+l+'</div><div style="font-size:20px;font-weight:700;color:'+(col||'var(--gray900)')+'">'+v+'</div></div>';}
+  var kpis='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">'+tile('Clientes en riesgo',critCount,'var(--r)')+tile('Bloqueantes',openBlockers)+tile('Aging máx',maxAge+' d')+tile('Avance global',pctGlobal+'%')+'</div>';
+
+  document.getElementById('board').innerHTML='<div style="overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:12px">'+kpis+'<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div class="exec-card"><div class="exec-card-title"><i class="ti ti-grid-dots"></i> Matriz de riesgo S×P</div><div style="display:flex;gap:6px"><div style="writing-mode:vertical-rl;transform:rotate(180deg);font-size:10px;color:var(--gray400);text-align:center">Severidad →</div><div style="flex:1"><div style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px">'+matrix+'</div><div style="font-size:10px;color:var(--gray400);text-align:center;margin-top:4px">Probabilidad →</div></div></div></div><div class="exec-card"><div class="exec-card-title"><i class="ti ti-list-numbers"></i> Registro FMEA (RPN)</div><table class="risk-table"><thead><tr><th>Cliente</th><th>Riesgo</th><th>Depto</th><th>S</th><th>P</th><th>RPN</th></tr></thead><tbody>'+fmea+'</tbody></table></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div class="exec-card"><div class="exec-card-title"><i class="ti ti-chart-bar"></i> Pareto de bloqueantes por depto</div>'+pareto+'</div><div class="exec-card"><div class="exec-card-title"><i class="ti ti-clock-exclamation"></i> Aging de tareas abiertas</div>'+aging+'</div></div></div>';
 }
 
 function renderDeptView(){
