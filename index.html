@@ -148,15 +148,15 @@ html,body{height:100%;font-family:var(--font);background:#ECEEF2;color:var(--gra
 .dept-sec:hover{box-shadow:var(--shadow-md)}
 .dept-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--white);cursor:pointer;user-select:none;border-bottom:1px solid var(--gray100);transition:background var(--tr);border-radius:var(--r-xl) var(--r-xl) 0 0}
 .dept-hdr:hover{background:var(--gray50)}
-.dept-hdr-l{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-width:0}
-.dept-icon-wrap{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;background:var(--gray50);border:1px solid var(--gray200);flex-shrink:0}
-.dept-name{font-size:12px;font-weight:700;color:var(--gray800);white-space:nowrap}
-.dept-cnt{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;white-space:nowrap}
+.dept-hdr-l{display:flex;align-items:center;gap:8px;min-width:0;flex:1;overflow:hidden}
+.dept-icon-wrap{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;background:var(--gray50);border:1px solid var(--gray200);flex-shrink:0;min-width:28px}
+.dept-name{font-size:12px;font-weight:700;color:var(--gray800);white-space:nowrap;flex-shrink:0}
+.dept-cnt{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;white-space:nowrap;flex-shrink:0}
 .dept-cnt.alert{background:var(--r);color:#fff}
 .dept-cnt.info{background:var(--gray100);color:var(--gray600)}
 .dept-cnt.done-all{background:var(--gl);color:var(--g)}
 .dept-cnt.empty{background:var(--gray100);color:var(--gray400);font-weight:400}
-.dept-days{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600;white-space:nowrap;display:flex;align-items:center;gap:3px}
+.dept-days{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600;white-space:nowrap;display:flex;align-items:center;gap:3px;flex-shrink:0}
 .dept-days.overdue{background:#FEF2F2;color:#B91C1C}
 .dept-days.warning{background:#FFFBEB;color:#92400E}
 .dept-days.ok{background:#F0FDF4;color:#15803D}
