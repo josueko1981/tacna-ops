@@ -527,7 +527,7 @@ function cleanData(data){
 }
 function afterLoad(){
   buildSidebar();updateStats();
-  if(curClient){const cl=allC().find(c=>c.name===curClient.name);if(cl){curClient=cl;renderBoard();}}
+  if(curClient){const cl=allC().find(c=>norm(c.name)===norm(curClient.name));if(cl){curClient=cl;renderBoard();}}
   if(currentTab==='exec')renderExec();
   else if(currentTab==='dept')renderDeptView();
 }
@@ -580,9 +580,9 @@ function buildSidebar(){
     const clients=DATA.clients[key]||[];
     if(!clients.length){html+='<div style="padding:5px 10px;font-size:11px;color:var(--gray400);font-style:italic">Sin clientes</div>';}
     clients.forEach(c=>{
-      const open=cnt(c,'open');const isActive=curClient&&curClient.name===c.name;
+      const open=cnt(c,'open');const isActive=curClient&&norm(curClient.name)===norm(c.name);
       const hasCands=SCAN_CANDIDATES.filter(sc=>sc.client===c.name&&!sc.dismissed&&!sc.approved).length;
-      html+='<div class="sb-item'+(isActive?' active':'')+'" id="si-'+esc(c.name)+'" onclick="selClient(\''+esc(c.name)+'\',\''+key+'\')">';
+      html+='<div class="sb-item'+(isActive?' active':'')+'" id="si-'+idSafe(c.name)+'" onclick="selClient(\''+esc(c.name)+'\',\''+key+'\')">';
       html+='<span class="sb-item-name">'+c.name+'</span>';
       html+='<div style="display:flex;align-items:center;gap:3px">';
       if(hasCands>0)html+='<span style="font-size:9px;padding:1px 5px;border-radius:8px;background:#1D4ED8;color:#fff;font-weight:700">'+hasCands+'✉</span>';
@@ -600,7 +600,7 @@ function quickAdd(cat){
 }
 function confirmAdd(cat){
   const inp=document.getElementById('sai-'+cat);const name=inp.value.trim().toUpperCase();
-  if(!name)return;if(allC().find(c=>c.name===name)){toast('Ya existe','warn');return;}
+  if(!name)return;if(allC().find(c=>norm(c.name)===norm(name))){toast('Ya existe','warn');return;}
   if(!DATA.clients[cat])DATA.clients[cat]=[];
   DATA.clients[cat].push({name,type:cat.slice(0,-1),tasks:{}});
   inp.value='';document.getElementById('sar-'+cat).classList.remove('show');
@@ -608,7 +608,7 @@ function confirmAdd(cat){
 }
 function delClient(name,cat){
   if(!confirm('Eliminar '+name+'?'))return;
-  DATA.clients[cat]=DATA.clients[cat].filter(c=>c.name!==name);
+  DATA.clients[cat]=DATA.clients[cat].filter(c=>norm(c.name)!==norm(name));
   if(curClient&&curClient.name===name){curClient=null;curCat=null;}
   buildSidebar();updateStats();if(currentTab==='tracker')renderBoard();toast(name+' eliminado','warn');
 }
@@ -627,7 +627,7 @@ function openModal(){
 function closeModal(){document.getElementById('modal-bg').classList.remove('show');buildSidebar();updateStats();}
 function mAdd(cat){
   const inp=document.getElementById('mi-'+cat);const name=inp.value.trim().toUpperCase();
-  if(!name)return;if(allC().find(c=>c.name===name)){toast('Ya existe','warn');return;}
+  if(!name)return;if(allC().find(c=>norm(c.name)===norm(name))){toast('Ya existe','warn');return;}
   if(!DATA.clients[cat])DATA.clients[cat]=[];DATA.clients[cat].push({name,type:cat,tasks:{}});
   inp.value='';
   const list=document.getElementById('ml-'+cat);const d=document.createElement('div');d.className='mcl-row';
@@ -636,7 +636,7 @@ function mAdd(cat){
 }
 function mDel(name,cat){
   if(!confirm('Eliminar '+name+'?'))return;
-  DATA.clients[cat]=DATA.clients[cat].filter(c=>c.name!==name);
+  DATA.clients[cat]=DATA.clients[cat].filter(c=>norm(c.name)!==norm(name));
   if(curClient&&curClient.name===name){curClient=null;curCat=null;}
   const list=document.getElementById('ml-'+cat);
   if(list){list.innerHTML='';(DATA.clients[cat]||[]).forEach(c=>{const d=document.createElement('div');d.className='mcl-row';d.innerHTML='<span>'+c.name+'</span><button class="mcl-del" onclick="mDel(\''+esc(c.name)+'\',\''+cat+'\')">Eliminar</button>';list.appendChild(d);});}
@@ -670,10 +670,10 @@ function triggerOutlookScan(){
 
 function selClient(name,cat){
   isSearchMode=false;
-  const cl=(DATA.clients[cat]||[]).find(c=>c.name===name);if(!cl)return;
+  const cl=(DATA.clients[cat]||[]).find(c=>norm(c.name)===norm(name));if(!cl)return;
   curClient=cl;curCat=cat;
   document.querySelectorAll('.sb-item').forEach(e=>e.classList.remove('active'));
-  const el=document.getElementById('si-'+esc(name));if(el)el.classList.add('active');
+  const el=document.getElementById('si-'+idSafe(name));if(el)el.classList.add('active');
   setEl('main-title',name);
   const op=cnt(cl,'open'),dn=cnt(cl,'done'),pr=cnt(cl,'prog');
   setEl('main-sub',(TYPE_LABELS[cat]||cat)+' · '+op+' pendientes · '+pr+' en proceso · '+dn+' completadas');
@@ -711,7 +711,7 @@ function renderBoard(){
     const openCnt=openTasks.length;
     const allDone=tasks.length>0&&doneTasks.length===tasks.length;
     // avg days only for open tasks
-    const avgDays=openTasks.length>0?Math.round(openTasks.reduce((s,t)=>s+(TASK_CREATED[t.id]||14),0)/openTasks.length):0;
+    const avgDays=openTasks.length>0?Math.round(openTasks.reduce((s,t)=>s+(t.days!=null?t.days:(TASK_CREATED[t.id]||14)),0)/openTasks.length):0;
     const daysClass=avgDays>21?'overdue':avgDays>7?'warning':'ok';
     html+='<div class="dept-sec"><div class="dept-hdr" onclick="togDept(\''+key+'\')">';
     html+='<div class="dept-hdr-l"><div class="dept-icon-wrap">'+(DEPT_ICONS[dept]||'📋')+'</div>';
@@ -726,7 +726,7 @@ function renderBoard(){
     tasks.forEach((task,i)=>{
       const sc=task.s==='done'?'done':task.s==='prog'?'prog':'open';
       const ic=task.s==='done'?'&#10003;':task.s==='prog'?'...':'!';
-      const days=TASK_CREATED[task.id]||(Math.floor(Math.random()*28)+1);
+      const days=(task.days!=null?task.days:(TASK_CREATED[task.id]||(Math.floor(Math.random()*28)+1)));
       if(!TASK_CREATED[task.id])TASK_CREATED[task.id]=days;
       const ageClass=days>21?'old':days>7?'mid':'';
       const ageLabel=task.s!=='done'?(days>1?days+'d':'hoy'):'';
@@ -747,7 +747,7 @@ function togDept(key){
   const icon=document.getElementById('dt-'+key);if(icon)icon.classList.toggle('collapsed');
 }
 function cycleStatus(name,cat,dept,i){
-  const cl=(DATA.clients[cat]||[]).find(c=>c.name===name);if(!cl||!(cl.tasks||{})[dept])return;
+  const cl=(DATA.clients[cat]||[]).find(c=>norm(c.name)===norm(name));if(!cl||!(cl.tasks||{})[dept])return;
   const task=cl.tasks[dept][i];
   task.s={open:'prog',prog:'done',done:'open'}[task.s];
   updateStats();renderBoard();buildSidebar();
@@ -755,7 +755,7 @@ function cycleStatus(name,cat,dept,i){
 }
 function addTask(name,cat,dept,key){
   const inp=document.getElementById('ati-'+key);if(!inp||!inp.value.trim())return;
-  const text=inp.value.trim();const cl=(DATA.clients[cat]||[]).find(c=>c.name===name);if(!cl)return;
+  const text=inp.value.trim();const cl=(DATA.clients[cat]||[]).find(c=>norm(c.name)===norm(name));if(!cl)return;
   if(!cl.tasks)cl.tasks={};if(!cl.tasks[dept])cl.tasks[dept]=[];
   const id='LOCAL_'+Date.now();TASK_CREATED[id]=0;
   cl.tasks[dept].push({id,t:text,s:'open',source:'dashboard'});
@@ -764,15 +764,15 @@ function addTask(name,cat,dept,key){
   toast('Tarea agregada');
 }
 function delTask(name,cat,dept,i){
-  const cl=(DATA.clients[cat]||[]).find(c=>c.name===name);if(!cl||!(cl.tasks||{})[dept])return;
+  const cl=(DATA.clients[cat]||[]).find(c=>norm(c.name)===norm(name));if(!cl||!(cl.tasks||{})[dept])return;
   const task=cl.tasks[dept][i];cl.tasks[dept].splice(i,1);
   updateStats();renderBoard();buildSidebar();
   if(isConnected&&task.id)pushTask({action:'deleteTask',id:task.id});
 }
 function approveCandidate(id){
   const cand=SCAN_CANDIDATES.find(c=>c.id===id);if(!cand)return;cand.approved=true;
-  const cat=DATA.clients.arranques&&DATA.clients.arranques.find(c=>c.name===cand.client)?'arranques':DATA.clients.expansiones&&DATA.clients.expansiones.find(c=>c.name===cand.client)?'expansiones':'rollouts';
-  const cl=(DATA.clients[cat]||[]).find(c=>c.name===cand.client);if(!cl)return;
+  const cat=DATA.clients.arranques&&DATA.clients.arranques.find(c=>norm(c.name)===norm(cand.client))?'arranques':DATA.clients.expansiones&&DATA.clients.expansiones.find(c=>norm(c.name)===norm(cand.client))?'expansiones':'rollouts';
+  const cl=(DATA.clients[cat]||[]).find(c=>norm(c.name)===norm(cand.client));if(!cl)return;
   if(!cl.tasks)cl.tasks={};if(!cl.tasks[cand.dept])cl.tasks[cand.dept]=[];
   const newId='EMAIL_'+Date.now();TASK_CREATED[newId]=0;
   cl.tasks[cand.dept].push({id:newId,t:cand.task,s:'open',src:'email'});
@@ -811,7 +811,7 @@ function renderExec(){
   }).sort((a,b)=>b.op-a.op);
   const deptDelay=DEPTS.map(dept=>{
     const tasks=[];all.forEach(c=>(c.tasks&&c.tasks[dept]||[]).forEach(t=>{if(t.s!=='done')tasks.push(t);}));
-    const avg=tasks.length>0?Math.round(tasks.reduce((s,t)=>s+(TASK_CREATED[t.id]||14),0)/tasks.length):0;
+    const avg=tasks.length>0?Math.round(tasks.reduce((s,t)=>s+(t.days!=null?t.days:(TASK_CREATED[t.id]||14)),0)/tasks.length):0;
     return{dept,count:tasks.length,avg};
   }).filter(d=>d.count>0).sort((a,b)=>b.avg-a.avg);
   const totalTasks=all.reduce((s,c)=>s+cnt(c),0);
@@ -937,8 +937,8 @@ function renderSearchResults(results,q){
   board.innerHTML=html;
 }
 function addFromSearch(client,dept,task){
-  const cat=DATA.clients.arranques&&DATA.clients.arranques.find(c=>c.name===client)?'arranques':DATA.clients.expansiones&&DATA.clients.expansiones.find(c=>c.name===client)?'expansiones':'rollouts';
-  const cl=(DATA.clients[cat]||[]).find(c=>c.name===client);if(!cl)return;
+  const cat=DATA.clients.arranques&&DATA.clients.arranques.find(c=>norm(c.name)===norm(client))?'arranques':DATA.clients.expansiones&&DATA.clients.expansiones.find(c=>norm(c.name)===norm(client))?'expansiones':'rollouts';
+  const cl=(DATA.clients[cat]||[]).find(c=>norm(c.name)===norm(client));if(!cl)return;
   if(!cl.tasks)cl.tasks={};if(!cl.tasks[dept])cl.tasks[dept]=[];
   const id='EM'+Date.now();TASK_CREATED[id]=0;
   cl.tasks[dept].push({id,t:task,s:'open',src:'email'});
@@ -969,7 +969,7 @@ function setAutoRefresh(val){
 }
 async function pushTask(body){
   if(!API_URL)return;
-  try{await fetch(API_URL,{method:'POST',body:JSON.stringify(body),headers:{'Content-Type':'application/json'}});showSync('Guardado en Google Sheet','ok');}
+  try{await fetch(API_URL,{method:'POST',body:JSON.stringify(body),headers:{'Content-Type':'text/plain;charset=utf-8'}});showSync('Guardado en Google Sheet','ok');}
   catch(e){showSync('Error al guardar: '+e.message,'err');}
 }
 function getDemoData(){
@@ -978,7 +978,7 @@ function getDemoData(){
       {name:"VIDRIOS",tasks:{CONTABILIDAD:[{id:"v1",t:"Jeff envio doc BANORTE firmado",s:"done"},{id:"v2",t:"Cancelar cuenta Banamex",s:"open"}],COMPLIANCE:[{id:"v3",t:"Cambio Annexo IMMEXnet->SEER completado",s:"done"},{id:"v4",t:"Adenda al domicilio modulo",s:"open"},{id:"v5",t:"Estamos en fila virtual para cambio de FIEL",s:"open"}],"IMPORT/EXPORT":[{id:"v6",t:"Fixtures 80pct / Big assets 80pct / RM 30pct",s:"prog"}],HR:[{id:"v7",t:"Procesar Fondo Ahorro finiquitos Sem 21",s:"open",src:"email"}],EHS:[{id:"v8",t:"Revision corporativo programa entrenamientos",s:"open"}]}},
       {name:"MICROMETALS",tasks:{COMPLIANCE:[{id:"m1",t:"Pendiente envio fracciones SAT CIVA",s:"open"},{id:"m2",t:"Fracciones difieren JD vs OMG - revisar",s:"open"}],"IMPORT/EXPORT":[{id:"m3",t:"2 plataformas importadas May 4-8",s:"done"},{id:"m4",t:"URGENTE: COO proveedores pedimento cierra lunes",s:"open",src:"email"},{id:"m5",t:"Coordinar transfer equipo compresores",s:"prog",src:"email"}],HR:[{id:"m6",t:"Evaluar candidato bilingue Mandarin",s:"open",src:"email"},{id:"m7",t:"Seguimiento candidatos Lideres Produccion",s:"open",src:"email"}],COMPLIANCE:[{id:"m8",t:"Cargar docs REPSE JCR Servicios",s:"open",src:"email"}]}},
       {name:"CONESYS",tasks:{COMPLIANCE:[{id:"co1",t:"Firma MSA pendiente",s:"open"},{id:"co2",t:"Enviar Zoom invite kick-off Martes 12pm PST",s:"open",src:"email"},{id:"co3",t:"Revisar pasos amarillos Gantt con Juan Pablo",s:"open",src:"email"}],"IMPORT/EXPORT":[{id:"co4",t:"Broker MX: Expeditors / USA: RL Jones",s:"done"}]}},
-      {name:"B&L",tasks:{COMPLIANCE:[{id:"bl1",t:"W9 recibida / ID pendiente",s:"prog"},{id:"bl2",t:"Registro RFC Baja California",s:"open"},{id:"bl3",t:"Resolver renta subarrendamiento MODULO A",s:"open",src:"email"},{id:"bl4",t:"Docs faltantes Mexico Holding accionistas",s:"open",src:"email"}],HR:[{id:"bl5",t:"Politica beneficios en proceso",s:"prog"},{id:"bl6",t:"Gerente planta Harmac periodo prueba",s:"prog"}]}},
+      {name:"BAUSCH",tasks:{COMPLIANCE:[{id:"bl1",t:"W9 recibida / ID pendiente",s:"prog"},{id:"bl2",t:"Registro RFC Baja California",s:"open"},{id:"bl3",t:"Resolver renta subarrendamiento MODULO A",s:"open",src:"email"},{id:"bl4",t:"Docs faltantes Mexico Holding accionistas",s:"open",src:"email"}],HR:[{id:"bl5",t:"Politica beneficios en proceso",s:"prog"},{id:"bl6",t:"Gerente planta Harmac periodo prueba",s:"prog"}]}},
       {name:"TODCO",tasks:{CONTABILIDAD:[{id:"t1",t:"Embargo precautorio resolucion junio",s:"open"},{id:"t2",t:"Ejecutar pago IGI lunes",s:"open",src:"email"}],COMPLIANCE:[{id:"t3",t:"Agendar junta auditoria",s:"open"}]}},
       {name:"VTECH",tasks:{COMPLIANCE:[{id:"vt1",t:"Atender pendientes urgentes VTECH",s:"open"}],"IMPORT/EXPORT":[{id:"vt2",t:"Alinear comparacion clasificacion broker",s:"open",src:"email"}],IT:[{id:"vt3",t:"Entrenamiento equipo HK pendiente",s:"open"}]}},
       {name:"WHOOP",tasks:{COMPLIANCE:[{id:"wh1",t:"Atender pendientes urgentes WHOOP",s:"open"}],"IMPORT/EXPORT":[{id:"wh2",t:"Confirmar broker preferentemente SAI",s:"open"}]}},
@@ -1000,7 +1000,9 @@ function getDemoData(){
 function allC(){return[...(DATA.clients.arranques||[]),...(DATA.clients.expansiones||[]),...(DATA.clients.rollouts||[])];}
 function cnt(c,s){let n=0;Object.values(c.tasks||{}).forEach(ts=>ts.forEach(t=>{if(!s||t.s===s)n++;}));return n;}
 function setEl(id,val){const el=document.getElementById(id);if(el)el.textContent=val;}
-function esc(s){return String(s).replace(/'/g,"\\'").replace(/[^a-zA-Z0-9]/g,'_');}
+function esc(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+function idSafe(s){return String(s).replace(/[^a-zA-Z0-9]/g,'_');}
+function norm(s){return String(s).replace(/[\u00A0\u200B-\u200D\uFEFF]/g,' ').replace(/\s+/g,' ').trim().toUpperCase();}
 function htmlEsc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function toast(msg,type){
   const t=document.getElementById('toast');
