@@ -555,15 +555,21 @@ function loadDemo(silent=false){
 }
 
 function cleanData(data){
+  // Only filter tasks where t is literally the boolean false/true or empty
+  // Everything else passes through unchanged
   const cats=['arranques','expansiones','rollouts'];
   cats.forEach(cat=>{
     (data.clients[cat]||[]).forEach(client=>{
-      Object.keys(client.tasks||{}).forEach(dept=>{
+      if(!client.tasks) client.tasks={};
+      Object.keys(client.tasks).forEach(dept=>{
         client.tasks[dept]=(client.tasks[dept]||[]).filter(task=>{
-          if(!task||!task.t) return false;
-          const tl=String(task.t).trim().toLowerCase();
-          if(tl==='false'||tl==='true') return false;
-          if(String(task.t).trim()==='') return false;
+          if(!task) return false;
+          // task.t could be string or boolean
+          if(task.t === false || task.t === true) return false;
+          if(task.t === null || task.t === undefined) return false;
+          const tStr = String(task.t).trim();
+          if(tStr === '') return false;
+          if(tStr === 'false' || tStr === 'true') return false;
           return true;
         });
       });
