@@ -555,8 +555,6 @@ function loadDemo(silent=false){
 }
 
 function cleanData(data){
-  // Only filter tasks where t is literally the boolean false/true or empty
-  // Everything else passes through unchanged
   const cats=['arranques','expansiones','rollouts'];
   cats.forEach(cat=>{
     (data.clients[cat]||[]).forEach(client=>{
@@ -564,12 +562,10 @@ function cleanData(data){
       Object.keys(client.tasks).forEach(dept=>{
         client.tasks[dept]=(client.tasks[dept]||[]).filter(task=>{
           if(!task) return false;
-          // task.t could be string or boolean
           if(task.t === false || task.t === true) return false;
           if(task.t === null || task.t === undefined) return false;
           const tStr = String(task.t).trim();
-          if(tStr === '') return false;
-          if(tStr === 'false' || tStr === 'true') return false;
+          if(tStr === '' || tStr === 'false' || tStr === 'true') return false;
           return true;
         });
       });
@@ -841,7 +837,7 @@ function renderBoard(){
         <div class="task-body">
           <span class="task-text${task.s==='done'?' done':''}">${task.t||''}</span>
           <div class="task-meta">
-            ${task.source==='tasks_sheet'||task.src==='email'?'<span class="task-src">📧 email</span>':''}
+            ${task.source==='email'||task.src==='email'?'<span class="task-src">📧 email</span>':''}
           </div>
         </div>
         <div class="task-actions"><button class="task-del" onclick="event.stopPropagation();delTask('${esc(curClient.name)}','${curCat}','${dept}',${i})" title="Eliminar">✕</button></div>
