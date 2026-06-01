@@ -795,6 +795,7 @@ window.loadScanCandidates=function(candidates){
 
 // EXECUTIVE VIEW
 function lssSev(t){
+  if(t.sOv!=null&&t.sOv!=='')return Number(t.sOv);
   var n=((t.notas||'')+' '+(t.t||'')).toLowerCase();
   var p=(t.prio||'').toUpperCase();
   if(/embargo|holding|accionistas|\brfc\b|fracci|clasific|bloqueante total|no se avanza|\bmsa\b/.test(n))return 5;
@@ -804,14 +805,22 @@ function lssSev(t){
   return 2;
 }
 function lssProb(t){
-  var d=(t.days!=null?t.days:(TASK_CREATED[t.id]||0));
+  if(t.pOv!=null&&t.pOv!=='')return Number(t.pOv);
   var p=(t.prio||'').toUpperCase();
   var n=((t.notas||'')+' '+(t.t||'')).toLowerCase();
+  var d=(t.days!=null?t.days:0);
   var s=2;
-  if(d>21)s=5;else if(d>14)s=4;else if(d>7)s=3;
-  if(p==='URGENTE')s=Math.max(s,4);
+  if(p==='URGENTE')s=4;else if(p==='ALTA')s=3;else s=2;
+  if(/bloquea|bloqueante|no se avanza|cr[ií]tico/.test(n))s=Math.max(s,4);
   if(/sin due|sin claridad|cliente debe|arrendador|accionistas|tercero|pendiente respuesta|pendiente firma|pendiente turno/.test(n))s=Math.min(5,s+1);
+  if(d>30)s=Math.min(5,s+1);
   return Math.min(5,Math.max(1,s));
+}
+function nextOwner(t){
+  if(t.responsable==='TACNA'||t.responsable==='Tercero')return t.responsable;
+  var n=((t.notas||'')+' '+(t.t||'')).toLowerCase();
+  if(/cliente debe|el cliente|arrendador|accionistas|holding|esperando|pendiente respuesta|pendiente firma|proveedor|legal usa|corporativo|dhl|turno sat|resoluci[o\u00f3]n|embargo|sat proceso|pendiente sat/.test(n))return 'Tercero';
+  return 'TACNA';
 }
 function clientCat(c){return DATA.clients.arranques&&DATA.clients.arranques.includes(c)?'arranques':DATA.clients.expansiones&&DATA.clients.expansiones.includes(c)?'expansiones':'rollouts';}
 function sparkline(vals,color,w,h){
@@ -837,15 +846,15 @@ function renderExec(){
       (c.tasks[dept]||[]).forEach(function(t){
         if(t.s==='done')return;
         var s=lssSev(t),p=lssProb(t),rpn=s*p;
-        if(!best||rpn>best.rpn)best={s:s,p:p,rpn:rpn,risk:t.t||'',dept:dept};
+        if(!best||rpn>best.rpn)best={s:s,p:p,rpn:rpn,risk:t.t||'',dept:dept,id:t.id};
       });
     });
-    if(best)clientRisk.push({c:c,cat:clientCat(c),s:best.s,p:best.p,rpn:best.rpn,risk:best.risk,dept:best.dept});
+    if(best)clientRisk.push({c:c,cat:clientCat(c),s:best.s,p:best.p,rpn:best.rpn,risk:best.risk,dept:best.dept,id:best.id});
   });
   clientRisk.sort(function(a,b){return b.rpn-a.rpn;});
 
   var critCount=clientRisk.filter(function(r){return r.rpn>=15;}).length;
-  var openBlockers=0,maxAge=0,totalOpen=0,totalDone=0,deptBlock={},ageB={a:0,b:0,c:0};
+  var openBlockers=0,maxAge=0,totalOpen=0,totalDone=0,deptBlock={},ageB={a:0,b:0,c:0},enCancha=0,esperaTercero=0;
   all.forEach(function(c){
     Object.keys(c.tasks||{}).forEach(function(dept){
       (c.tasks[dept]||[]).forEach(function(t){
@@ -854,7 +863,7 @@ function renderExec(){
         var rpn=lssSev(t)*lssProb(t);
         var d=(t.days!=null?t.days:(TASK_CREATED[t.id]||0));
         if(d>maxAge)maxAge=d;
-        if(rpn>=8){openBlockers++;deptBlock[dept]=(deptBlock[dept]||0)+1;}
+        if(rpn>=8){openBlockers++;deptBlock[dept]=(deptBlock[dept]||0)+1;if(nextOwner(t)==='TACNA')enCancha++;else esperaTercero++;}
         if(d>21)ageB.c++;else if(d>7)ageB.b++;else ageB.a++;
       });
     });
@@ -897,7 +906,7 @@ function renderExec(){
   var fmea='';
   clientRisk.slice(0,8).forEach(function(r){
     var rk=r.risk.length>42?r.risk.slice(0,42)+'…':r.risk;
-    fmea+='<tr onclick="selClient(\''+esc(r.c.name)+'\',\''+r.cat+'\');setTab(\'tracker\')"><td style="font-weight:600;color:var(--gray900)">'+r.c.name+'</td><td style="font-size:11px;color:var(--gray700)">'+rk+'</td><td style="font-size:10px;color:var(--gray400)">'+r.dept+'</td><td style="text-align:center">'+r.s+'</td><td style="text-align:center">'+r.p+'</td><td style="text-align:center;font-weight:700;color:'+zc(r.rpn)+'">'+r.rpn+'</td></tr>';
+    fmea+='<tr style="cursor:pointer" onclick="openRiskEditor(\''+r.id+'\')"><td style="font-weight:600;color:var(--gray900)">'+r.c.name+'</td><td style="font-size:11px;color:var(--gray700)">'+rk+'</td><td style="font-size:10px;color:var(--gray400)">'+r.dept+'</td><td style="text-align:center">'+r.s+'</td><td style="text-align:center">'+r.p+'</td><td style="text-align:center;font-weight:700;color:'+zc(r.rpn)+'">'+r.rpn+'</td></tr>';
   });
 
   // CONCENTRATION: pareto bars or table
@@ -917,9 +926,15 @@ function renderExec(){
   function ageRow(lbl,n,tot,col){var w=tot?Math.round(n/tot*100):0;return '<div style="display:flex;align-items:center;gap:8px;margin:5px 0;font-size:12px"><span style="width:64px;color:var(--gray700)">'+lbl+'</span><div style="flex:1;height:12px;background:var(--gray100,#ececec);border-radius:4px;overflow:hidden"><div style="height:100%;width:'+w+'%;background:'+col+';opacity:.85"></div></div><span style="font-weight:600;color:var(--gray900);width:18px;text-align:right">'+n+'</span></div>';}
   var agingTot=ageB.a+ageB.b+ageB.c;
   var aging=ageRow('0–7 d',ageB.a,agingTot,'var(--g)')+ageRow('8–21 d',ageB.b,agingTot,'var(--a)')+ageRow('22+ d',ageB.c,agingTot,'var(--r)');
+  var totOwn=enCancha+esperaTercero;
+  function ownRow(lbl,n,tot,col){var w=tot?Math.round(n/tot*100):0;return '<div style="display:flex;align-items:center;gap:8px;margin:7px 0;font-size:13px"><span style="width:152px;color:var(--gray700)">'+lbl+'</span><div style="flex:1;height:14px;background:var(--gray100,#ececec);border-radius:4px;overflow:hidden"><div style="height:100%;width:'+w+'%;background:'+col+';opacity:.85"></div></div><span style="font-weight:700;color:var(--gray900);width:24px;text-align:right">'+n+'</span></div>';}
+  var ownBody=totOwn?(ownRow('En nuestra cancha',enCancha,totOwn,'var(--a)')+ownRow('Esperando a terceros',esperaTercero,totOwn,'var(--gray400)')+'<div style="font-size:11px;color:var(--gray400);margin-top:6px">El siguiente paso de cada bloqueo, clasificado por quién lo tiene que mover. Editable cuando conectemos el ajuste de prioridades.</div>'):'<div style="font-size:12px;color:var(--gray400);padding:8px 0">Sin bloqueos abiertos.</div>';
 
   function tile(l,v,col){return '<div style="background:var(--gray50);border-radius:8px;padding:10px 12px"><div style="font-size:11px;color:var(--gray400)">'+l+'</div><div style="font-size:20px;font-weight:700;color:'+(col||'var(--gray900)')+'">'+v+'</div></div>';}
-  var kpis='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">'+tile('Clientes en riesgo',critCount,'var(--r)')+tile('Bloqueos abiertos',openBlockers)+tile('Días sin avanzar (máx)',maxAge+' d')+tile('Avance global',pctGlobal+'%')+'</div>';
+  var HISTk=(typeof DATA!=='undefined'&&DATA.history)?DATA.history:[];
+  var cerradasSemana=null;
+  if(HISTk.length>=2){var dnk=HISTk.map(function(x){return x.done||0;});var kk=Math.min(7,HISTk.length-1);cerradasSemana=dnk[dnk.length-1]-dnk[dnk.length-1-kk];}
+  var kpis='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">'+tile('Clientes en riesgo',critCount,'var(--r)')+tile('Bloqueos abiertos',openBlockers)+tile('En nuestra cancha',enCancha)+tile('Cerradas / semana',cerradasSemana==null?'—':cerradasSemana,'var(--g)')+'</div>';
 
   var HIST=(typeof DATA!=='undefined'&&DATA.history)?DATA.history:[];
   var trendBody;
@@ -946,7 +961,7 @@ function renderExec(){
     '</div>'+
     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">'+
       '<div class="exec-card">'+cardHead('ti-chart-bar','Dónde se concentran los bloqueos (Pareto)',concToggles)+concBody+'</div>'+
-      '<div class="exec-card">'+cardHead('ti-clock-exclamation','Antigüedad de los pendientes (Aging)','')+aging+'</div>'+
+      '<div class="exec-card">'+cardHead('ti-arrows-split','¿De quién depende el siguiente paso?','')+ownBody+'</div>'+
     '</div>'+'<div class="exec-card">'+cardHead('ti-route','Qué resolver para desbloquear más (cadena crítica)','')+rootsBody+'</div>'+'<div class="exec-card">'+cardHead('ti-trending-up','Tendencia: ¿voy mejorando o empeorando?','')+trendBody+'</div>'+'</div>';
 }
 
@@ -1091,7 +1106,7 @@ function toast(msg,type){
 </script>
 
 <style>
-#wr-btn{position:fixed;right:14px;bottom:14px;z-index:900;background:#1f2421;color:#f1efe8;border:none;border-radius:10px;padding:8px 13px;font-size:13px;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.25)}
+#wr-btn{display:none;position:fixed;right:14px;bottom:14px;z-index:900;background:#1f2421;color:#f1efe8;border:none;border-radius:10px;padding:8px 13px;font-size:13px;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.25)}
 #warroom{position:fixed;inset:0;z-index:9999;background:#141110;color:#f3f1ea;display:none;flex-direction:column;padding:3vh 4vw;box-sizing:border-box}
 #warroom.on{display:flex}
 .wr-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:2.5vh}
@@ -1174,6 +1189,61 @@ function startWarRoom(){var o=document.getElementById('warroom');if(!o)return;
 function stopWarRoom(){clearInterval(WAR.adv);clearInterval(WAR.clk);var o=document.getElementById('warroom');if(o)o.classList.remove('on');var b=document.getElementById('wr-btn');if(b)b.style.display='';}
 document.addEventListener('keydown',function(e){if(e.key==='Escape')stopWarRoom();});
 window.addEventListener('load',function(){if(/[?&]mode=tv/.test(location.search))setTimeout(startWarRoom,1500);});
+</script>
+
+<style>
+.rk-grp{display:flex;gap:6px;flex-wrap:wrap}
+.rk-b{padding:6px 12px;border:1px solid var(--gray200);border-radius:8px;background:var(--white);cursor:pointer;font-size:12px;color:var(--gray700)}
+.rk-b.on{background:var(--gray900);color:#fff;border-color:var(--gray900)}
+.rk-b.rk-num{padding:6px 0;width:36px;text-align:center}
+.rk-b.rk-auto{color:var(--gray500)}
+.rk-ctx{font-size:12px;color:var(--gray500);margin-bottom:2px}
+.rk-rpn{font-weight:800;font-size:18px}
+</style>
+<div class="modal-bg" id="riskEditorBg">
+  <div class="modal" style="width:460px">
+    <div class="modal-hdr"><div class="modal-title" id="rk-title">Ajustar riesgo</div><button class="modal-close" onclick="closeRiskEditor()">&#10005;</button></div>
+    <div class="modal-body" id="rk-body"></div>
+  </div>
+</div>
+<script>
+function findTaskById(id){var r=null;(typeof allC==='function'?allC():[]).forEach(function(c){var cat=clientCat(c);Object.keys(c.tasks||{}).forEach(function(d){(c.tasks[d]||[]).forEach(function(t){if(t.id===id)r={t:t,client:c.name,cat:cat,dept:d};});});});return r;}
+function rkZone(rpn){return rpn>=15?'var(--r)':rpn>=8?'var(--a)':'var(--g)';}
+function openRiskEditor(id){
+  var f=findTaskById(id); if(!f)return; var t=f.t;
+  var clone={t:t.t,notas:t.notas,prio:t.prio,days:t.days,sOv:null,pOv:null,responsable:''};
+  var autoS=lssSev(clone),autoP=lssProb(clone),autoOwner=nextOwner(clone);
+  var effS=lssSev(t),effP=lssProb(t),effOwner=nextOwner(t),rpn=effS*effP;
+  var prio=(t.prio||'MEDIA').toUpperCase();
+  document.getElementById('rk-title').textContent='Ajustar riesgo \u00b7 '+(t.id||'');
+  function prB(){return ['BAJA','MEDIA','ALTA','URGENTE'].map(function(v){return '<button class="rk-b'+(prio===v?' on':'')+'" onclick="setRisk(\''+id+'\',\'PRIORIDAD\',\''+v+'\')">'+v+'</button>';}).join('');}
+  function owB(){return '<button class="rk-b'+(effOwner==='TACNA'?' on':'')+'" onclick="setRisk(\''+id+'\',\'RESPONSABLE\',\'TACNA\')">En nuestra cancha</button><button class="rk-b'+(effOwner==='Tercero'?' on':'')+'" onclick="setRisk(\''+id+'\',\'RESPONSABLE\',\'Tercero\')">Tercero</button><button class="rk-b rk-auto" onclick="setRisk(\''+id+'\',\'RESPONSABLE\',\'\')">Auto</button><span style="font-size:11px;color:var(--gray400);align-self:center">auto: '+autoOwner+'</span>';}
+  function numB(field,eff){var h='';for(var v=1;v<=5;v++){h+='<button class="rk-b rk-num'+(eff===v?' on':'')+'" onclick="setRisk(\''+id+'\',\''+field+'\','+v+')">'+v+'</button>';}h+='<button class="rk-b rk-auto" onclick="setRisk(\''+id+'\',\''+field+'\',\'\')">Auto</button>';return h;}
+  var sOver=(t.sOv!=null&&t.sOv!==''),pOver=(t.pOv!=null&&t.pOv!=='');
+  var html=''+
+   '<div><div class="rk-ctx">'+f.client+' \u00b7 '+f.dept+'</div><div style="font-size:13px;color:var(--gray900);font-weight:600">'+(t.t||'')+'</div></div>'+
+   '<div><div class="modal-sec-title">Prioridad</div><div class="rk-grp">'+prB()+'</div></div>'+
+   '<div><div class="modal-sec-title">\u00bfDe qui\u00e9n depende el siguiente paso?</div><div class="rk-grp">'+owB()+'</div></div>'+
+   '<div><div class="modal-sec-title">Gravedad del impacto (1-5)'+(sOver?' \u00b7 fijado por ti':' \u00b7 auto: '+autoS)+'</div><div class="rk-grp">'+numB('S_OVERRIDE',effS)+'</div></div>'+
+   '<div><div class="modal-sec-title">Probabilidad de que se atore (1-5)'+(pOver?' \u00b7 fijado por ti':' \u00b7 auto: '+autoP)+'</div><div class="rk-grp">'+numB('P_OVERRIDE',effP)+'</div></div>'+
+   '<div style="display:flex;align-items:center;gap:8px;border-top:1px solid var(--gray100);padding-top:12px"><span style="font-size:12px;color:var(--gray500)">\u00cdndice de riesgo resultante</span><span class="rk-rpn" style="color:'+rkZone(rpn)+';margin-left:auto">'+rpn+'</span></div>'+
+   '<div style="font-size:11px;color:var(--gray400)">Tu ajuste sobre-escribe el c\u00e1lculo autom\u00e1tico y se guarda en el Google Sheet. "Auto" regresa al c\u00e1lculo del sistema.</div>';
+  document.getElementById('rk-body').innerHTML=html;
+  document.getElementById('riskEditorBg').classList.add('show');
+}
+function setRisk(id,field,value){
+  var f=findTaskById(id); if(!f)return; var t=f.t;
+  if(field==='PRIORIDAD')t.prio=value;
+  else if(field==='RESPONSABLE')t.responsable=value;
+  else if(field==='S_OVERRIDE')t.sOv=(value===''?null:Number(value));
+  else if(field==='P_OVERRIDE')t.pOv=(value===''?null:Number(value));
+  if(typeof pushTask==='function')pushTask({action:'updateField',id:id,field:field,value:value});
+  openRiskEditor(id);
+  if(typeof renderExec==='function'&&typeof currentTab!=='undefined'&&currentTab==='exec')renderExec();
+}
+function closeRiskEditor(){var b=document.getElementById('riskEditorBg');if(b)b.classList.remove('show');}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeRiskEditor();});
+document.addEventListener('click',function(e){if(e.target&&e.target.id==='riskEditorBg')closeRiskEditor();});
 </script>
 
 </body>
