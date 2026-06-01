@@ -814,6 +814,12 @@ function lssProb(t){
   return Math.min(5,Math.max(1,s));
 }
 function clientCat(c){return DATA.clients.arranques&&DATA.clients.arranques.includes(c)?'arranques':DATA.clients.expansiones&&DATA.clients.expansiones.includes(c)?'expansiones':'rollouts';}
+function sparkline(vals,color,w,h){
+  if(!vals||!vals.length)return '';
+  var mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals),rng=(mx-mn)||1;
+  var pts=vals.map(function(v,i){var x=vals.length>1?(i/(vals.length-1))*w:0;var y=h-((v-mn)/rng)*(h-3)-1.5;return x.toFixed(1)+','+y.toFixed(1);}).join(' ');
+  return '<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" preserveAspectRatio="none" style="display:block"><polyline points="'+pts+'" fill="none" stroke="'+color+'" stroke-width="2" stroke-linejoin="round"/></svg>';
+}
 var execViews={map:'matrix',conc:'pareto'};
 function execView(k,v){execViews[k]=v;renderExec();}
 
@@ -854,6 +860,14 @@ function renderExec(){
     });
   });
   var pctGlobal=Math.round(totalDone/((totalOpen+totalDone)||1)*100);
+  var openT=[],byId={};
+  all.forEach(function(c){var cat=clientCat(c);Object.keys(c.tasks||{}).forEach(function(dept){(c.tasks[dept]||[]).forEach(function(t){if(t.s==='done')return;var o={id:t.id,client:c.name,cat:cat,t:t.t||'',deps:(t.dep||[])};openT.push(o);if(t.id)byId[t.id]=o;});});});
+  var blocks={};openT.forEach(function(o){(o.deps||[]).forEach(function(d){(blocks[d]=blocks[d]||[]).push(o.id);});});
+  function downstream(id){var seen={},q=(blocks[id]||[]).slice();while(q.length){var x=q.shift();if(seen[x])continue;seen[x]=1;(blocks[x]||[]).forEach(function(y){if(!seen[y])q.push(y);});}return Object.keys(seen).length;}
+  var roots=openT.filter(function(o){var bSome=(blocks[o.id]||[]).length>0;var depOpen=(o.deps||[]).some(function(d){return byId[d];});return bSome&&!depOpen;}).map(function(o){return{id:o.id,client:o.client,cat:o.cat,t:o.t,n:downstream(o.id)};}).sort(function(a,b){return b.n-a.n;});
+  var rootsBody='';
+  if(!roots.length){rootsBody='<div style="font-size:12px;color:var(--gray400);padding:8px 0">Captura dependencias en la columna <b>DEPENDE_DE</b> de tus tareas (los IDs que bloquean a cada una). Aquí verás la cadena crítica y qué bloqueante raíz desbloquea más al resolverse.</div>';}
+  else{roots.slice(0,6).forEach(function(r){var rk=r.t.length>50?r.t.slice(0,50)+'…':r.t;rootsBody+='<div onclick="selClient(\''+esc(r.client)+'\',\''+r.cat+'\');setTab(\'tracker\')" style="display:flex;align-items:center;gap:10px;margin:6px 0;font-size:12px;cursor:pointer"><span style="font-family:monospace;font-size:11px;color:var(--gray400)">'+r.id+'</span><span style="font-weight:600;color:var(--gray900);width:104px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+r.client+'</span><span style="flex:1;color:var(--gray700)">'+rk+'</span><span style="background:var(--rl);color:var(--r);border-radius:6px;padding:2px 8px;font-size:11px;font-weight:700;white-space:nowrap">desbloquea '+r.n+'</span></div>';});}
   function zc(rpn){return rpn>=15?'var(--r)':rpn>=8?'var(--a)':'var(--g)';}
 
   function vbtn(k,v,lbl){var on=execViews[k]===v;return '<button onclick="execView(\''+k+'\',\''+v+'\')" style="font-size:10px;padding:2px 8px;border-radius:6px;border:1px solid var(--gray200);cursor:pointer;margin-left:4px;background:'+(on?'var(--gray100,#ececec)':'transparent')+';color:'+(on?'var(--gray900)':'var(--gray400)')+'">'+lbl+'</button>';}
@@ -907,6 +921,24 @@ function renderExec(){
   function tile(l,v,col){return '<div style="background:var(--gray50);border-radius:8px;padding:10px 12px"><div style="font-size:11px;color:var(--gray400)">'+l+'</div><div style="font-size:20px;font-weight:700;color:'+(col||'var(--gray900)')+'">'+v+'</div></div>';}
   var kpis='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">'+tile('Clientes en riesgo',critCount,'var(--r)')+tile('Bloqueos abiertos',openBlockers)+tile('Días sin avanzar (máx)',maxAge+' d')+tile('Avance global',pctGlobal+'%')+'</div>';
 
+  var HIST=(typeof DATA!=='undefined'&&DATA.history)?DATA.history:[];
+  var trendBody;
+  if(HIST.length<2){trendBody='<div style="font-size:12px;color:var(--gray400);padding:8px 0">Aún no hay historial. Activa el snapshot diario (función <b>snapshotKPIs</b> con un disparador diario en Apps Script) y en pocos días verás aquí la tendencia de abiertas, bloqueos y tu velocidad de cierre.</div>';}
+  else{
+    var ab=HIST.map(function(x){return (x.abiertas||0)+(x.prog||0);});
+    var bl=HIST.map(function(x){return x.bloqueos||0;});
+    var dn=HIST.map(function(x){return x.done||0;});
+    var k=Math.min(7,HIST.length-1);
+    var vel=k>0?Math.round((dn[dn.length-1]-dn[dn.length-1-k])/k):0;
+    var blDelta=bl[bl.length-1]-bl[Math.max(0,bl.length-1-k)];
+    var arrow=blDelta>0?'▲':blDelta<0?'▼':'■';var arrowCol=blDelta>0?'var(--r)':blDelta<0?'var(--g)':'var(--gray400)';
+    trendBody='<div style="display:flex;gap:18px;flex-wrap:wrap;align-items:flex-end">'+
+      '<div><div style="font-size:11px;color:var(--gray400);margin-bottom:3px">Abiertas</div>'+sparkline(ab,'var(--a)',130,36)+'</div>'+
+      '<div><div style="font-size:11px;color:var(--gray400);margin-bottom:3px">Bloqueos</div>'+sparkline(bl,'var(--r)',130,36)+'</div>'+
+      '<div style="background:var(--gray50);border-radius:8px;padding:8px 12px"><div style="font-size:11px;color:var(--gray400)">Cierres/día ('+k+'d)</div><div style="font-size:18px;font-weight:700">'+vel+'</div></div>'+
+      '<div style="background:var(--gray50);border-radius:8px;padding:8px 12px"><div style="font-size:11px;color:var(--gray400)">Bloqueos vs '+k+'d</div><div style="font-size:18px;font-weight:700;color:'+arrowCol+'">'+arrow+' '+Math.abs(blDelta)+'</div></div>'+
+    '</div>';
+  }
   document.getElementById('board').innerHTML='<div style="overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:12px">'+kpis+
     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">'+
       '<div class="exec-card">'+cardHead('ti-target','Riesgo por cliente: qué tan grave y qué tan probable (Matriz)',mapToggles)+mapBody+'</div>'+
@@ -915,7 +947,7 @@ function renderExec(){
     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">'+
       '<div class="exec-card">'+cardHead('ti-chart-bar','Dónde se concentran los bloqueos (Pareto)',concToggles)+concBody+'</div>'+
       '<div class="exec-card">'+cardHead('ti-clock-exclamation','Antigüedad de los pendientes (Aging)','')+aging+'</div>'+
-    '</div></div>';
+    '</div>'+'<div class="exec-card">'+cardHead('ti-route','Qué resolver para desbloquear más (cadena crítica)','')+rootsBody+'</div>'+'<div class="exec-card">'+cardHead('ti-trending-up','Tendencia: ¿voy mejorando o empeorando?','')+trendBody+'</div>'+'</div>';
 }
 
 function renderDeptView(){
@@ -1057,5 +1089,92 @@ function toast(msg,type){
   clearTimeout(t._t);t._t=setTimeout(()=>t.className='toast',3500);
 }
 </script>
+
+<style>
+#wr-btn{position:fixed;right:14px;bottom:14px;z-index:900;background:#1f2421;color:#f1efe8;border:none;border-radius:10px;padding:8px 13px;font-size:13px;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.25)}
+#warroom{position:fixed;inset:0;z-index:9999;background:#141110;color:#f3f1ea;display:none;flex-direction:column;padding:3vh 4vw;box-sizing:border-box}
+#warroom.on{display:flex}
+.wr-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:2.5vh}
+.wr-title{font-size:2.2vw;font-weight:800;letter-spacing:.3px}
+.wr-sub{font-size:1.1vw;color:#a8a399}
+.wr-clock{font-size:1.6vw;color:#cdc8bd;font-variant-numeric:tabular-nums}
+.wr-close{background:transparent;border:1px solid #4a443c;color:#cdc8bd;border-radius:8px;padding:6px 12px;font-size:1vw;cursor:pointer}
+.wr-body{flex:1;display:flex;flex-direction:column;justify-content:center}
+.wr-scene-title{font-size:1.5vw;color:#a8a399;margin-bottom:2.2vh;text-transform:uppercase;letter-spacing:2px}
+.wr-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:1.8vw}
+.wr-kpi{background:#1f1b18;border-radius:18px;padding:4vh 2vw}
+.wr-kpi .n{font-size:7vw;font-weight:800;line-height:1}
+.wr-kpi .l{font-size:1.3vw;color:#a8a399;margin-top:1.4vh}
+.wr-row{display:flex;align-items:center;gap:1.5vw;padding:1.4vh 0;border-bottom:1px solid #2a2520;font-size:2vw}
+.wr-row .cli{font-weight:700;width:22vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wr-row .tk{flex:1;color:#cdc8bd;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wr-row .dp{font-size:1.1vw;color:#8a857c;width:12vw}
+.wr-badge{font-weight:800;border-radius:10px;padding:.4vh 1.2vw;font-size:1.8vw;min-width:4vw;text-align:center}
+.wr-bar-row{display:flex;align-items:center;gap:1.5vw;padding:1.1vh 0;font-size:1.8vw}
+.wr-bar-row .cli{width:20vw;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wr-bar{flex:1;height:2.6vh;background:#241f1b;border-radius:8px;overflow:hidden}
+.wr-bar>div{height:100%}
+.wr-foot{display:flex;align-items:center;gap:1.2vw;margin-top:2.5vh}
+.wr-dots{display:flex;gap:.8vw}
+.wr-dot{width:.9vw;height:.9vw;border-radius:50%;background:#3a342d}
+.wr-dot.on{background:#f3f1ea}
+.wr-prog{flex:1;height:.6vh;background:#241f1b;border-radius:4px;overflow:hidden}
+.wr-prog>div{height:100%;background:#6b6358;width:0}
+.wr-prog.run>div{width:100%;transition:width 15s linear}
+</style>
+<button id="wr-btn" onclick="startWarRoom()">&#128250; War Room</button>
+<div id="warroom">
+  <div class="wr-head">
+    <div><div class="wr-title">TACNA &middot; Centro de Operaciones</div><div class="wr-sub">Torre de control en vivo</div></div>
+    <div style="display:flex;align-items:center;gap:1.5vw"><span class="wr-clock" id="wr-clock"></span><button class="wr-close" onclick="stopWarRoom()">&#10005; Salir (Esc)</button></div>
+  </div>
+  <div class="wr-body" id="wr-content"></div>
+  <div class="wr-foot"><div class="wr-dots" id="wr-dots"></div><div class="wr-prog" id="wr-prog"><div></div></div></div>
+</div>
+<script>
+function tvz(r){return r>=15?'#ff5b5b':r>=8?'#f5b53d':'#4ed17a';}
+function warCompute(){
+  var all=(typeof allC==='function')?allC():[];
+  var risk=[],blk=[],open=0,done=0,maxAge=0;
+  all.forEach(function(c){var best=null;
+    Object.keys(c.tasks||{}).forEach(function(dept){(c.tasks[dept]||[]).forEach(function(t){
+      if(t.s==='done'){done++;return;}open++;
+      var s=lssSev(t),p=lssProb(t),rpn=s*p,d=(t.days!=null?t.days:0);if(d>maxAge)maxAge=d;
+      blk.push({client:c.name,dept:dept,t:t.t||'',rpn:rpn,days:d});
+      if(!best||rpn>best.rpn)best={rpn:rpn};
+    });});
+    if(best)risk.push({name:c.name,rpn:best.rpn});
+  });
+  risk.sort(function(a,b){return b.rpn-a.rpn;});blk.sort(function(a,b){return b.rpn-a.rpn;});
+  return {risk:risk,blockers:blk,crit:risk.filter(function(r){return r.rpn>=15;}).length,
+    blk:blk.filter(function(b){return b.rpn>=8;}).length,maxAge:maxAge,pct:Math.round(done/((open+done)||1)*100)};
+}
+function wrKPIs(){var d=warCompute();return '<div class="wr-scene-title">Resumen ejecutivo</div><div class="wr-kpis">'+
+  '<div class="wr-kpi"><div class="n" style="color:#ff5b5b">'+d.crit+'</div><div class="l">Clientes en riesgo</div></div>'+
+  '<div class="wr-kpi"><div class="n">'+d.blk+'</div><div class="l">Bloqueos abiertos</div></div>'+
+  '<div class="wr-kpi"><div class="n">'+d.maxAge+'</div><div class="l">D&iacute;as sin avanzar (m&aacute;x)</div></div>'+
+  '<div class="wr-kpi"><div class="n">'+d.pct+'%</div><div class="l">Avance global</div></div></div>';}
+function wrBlockers(){var d=warCompute();var h='<div class="wr-scene-title">Bloqueos cr&iacute;ticos &mdash; atender ya</div>';
+  d.blockers.slice(0,7).forEach(function(b){h+='<div class="wr-row"><span class="cli">'+b.client+'</span><span class="tk">'+b.t+'</span><span class="dp">'+b.dept+'</span><span class="wr-badge" style="background:'+tvz(b.rpn)+';color:#141110">'+b.rpn+'</span></div>';});
+  if(!d.blockers.length)h+='<div class="wr-row">Sin bloqueos. &#9989;</div>';return h;}
+function wrRanking(){var d=warCompute();var h='<div class="wr-scene-title">Riesgo por cliente</div>';
+  d.risk.slice(0,8).forEach(function(r){h+='<div class="wr-bar-row"><span class="cli">'+r.name+'</span><div class="wr-bar"><div style="width:'+Math.round(r.rpn/25*100)+'%;background:'+tvz(r.rpn)+'"></div></div><span style="width:4vw;text-align:right;font-weight:800;color:'+tvz(r.rpn)+'">'+r.rpn+'</span></div>';});
+  if(!d.risk.length)h+='<div class="wr-bar-row">Sin datos</div>';return h;}
+var WAR={i:0,sc:[],adv:null,clk:null};
+function warRender(){var c=document.getElementById('wr-content');if(c)c.innerHTML=WAR.sc[WAR.i]();
+  var dots=document.getElementById('wr-dots');if(dots)dots.innerHTML=WAR.sc.map(function(_,i){return '<span class="wr-dot'+(i===WAR.i?' on':'')+'"></span>';}).join('');
+  var p=document.getElementById('wr-prog');if(p){p.classList.remove('run');void p.offsetWidth;p.classList.add('run');}}
+function wrClock(){var el=document.getElementById('wr-clock');if(el)el.textContent=new Date().toLocaleString('es-MX',{weekday:'long',hour:'2-digit',minute:'2-digit'});}
+function startWarRoom(){var o=document.getElementById('warroom');if(!o)return;
+  WAR.sc=[wrKPIs,wrBlockers,wrRanking];WAR.i=0;o.classList.add('on');
+  var b=document.getElementById('wr-btn');if(b)b.style.display='none';
+  warRender();wrClock();
+  WAR.adv=setInterval(function(){WAR.i=(WAR.i+1)%WAR.sc.length;warRender();},15000);
+  WAR.clk=setInterval(wrClock,1000);}
+function stopWarRoom(){clearInterval(WAR.adv);clearInterval(WAR.clk);var o=document.getElementById('warroom');if(o)o.classList.remove('on');var b=document.getElementById('wr-btn');if(b)b.style.display='';}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')stopWarRoom();});
+window.addEventListener('load',function(){if(/[?&]mode=tv/.test(location.search))setTimeout(startWarRoom,1500);});
+</script>
+
 </body>
 </html>
