@@ -782,7 +782,7 @@ function lssSev(t){
   if(t.sOv!=null&&t.sOv!=='')return Number(t.sOv);
   var n=((t.notas||'')+' '+(t.t||'')).toLowerCase();
   var p=(t.prio||'').toUpperCase();
-  if(/embargo|holding|accionistas|\brfc\b|fracci|clasific|bloqueante total|no se avanza|\bmsa\b/.test(n))return 5;
+  if(/embargo|holding|accionistas|\brfc\b|fracci|clasific|bloqueante total|no se avanza|\bmsa\b|auditor|clausura|multa|sanci[oó]n|revoca|suspensi[oó]n/.test(n))return 5;
   if(p==='URGENTE')return 4;
   if(/sin\s+\S+.*no se|cr[ií]tico|bloquea/.test(n))return 4;
   if(p==='ALTA')return 3;
@@ -798,6 +798,7 @@ function lssProb(t){
   if(/bloquea|bloqueante|no se avanza|cr[ií]tico/.test(n))s=Math.max(s,4);
   if(/sin due|sin claridad|cliente debe|arrendador|accionistas|tercero|pendiente respuesta|pendiente firma|pendiente turno/.test(n))s=Math.min(5,s+1);
   if(d>30)s=Math.min(5,s+1);
+  if(/embargo|precautorio|auditor|clausura|multa|sanci[oó]n|revoca|suspensi[oó]n/.test(n))s=5;  // acciones de autoridad (auditoria/embargo): maxima prob de atorarse
   return Math.min(5,Math.max(1,s));
 }
 function nextOwner(t){
