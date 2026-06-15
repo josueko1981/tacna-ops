@@ -26,7 +26,7 @@
   --r-sm:6px;--r-md:10px;--r-lg:14px;--r-xl:18px;--r-2xl:24px;
   --font:'Inter',sans-serif;--tr:150ms cubic-bezier(.4,0,.2,1);
 }
-html,body{height:100%;font-family:var(--font);background:#ECEEF2;color:var(--gray800);font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow:hidden}
+html,body{height:100%;font-family:var(--font);background:#ECEEF2;color:var(--gray800);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow:hidden}
 .app{display:flex;flex-direction:column;height:100vh;overflow:hidden}
 
 /* TOPBAR */
@@ -34,9 +34,9 @@ html,body{height:100%;font-family:var(--font);background:#ECEEF2;color:var(--gra
 .brand{display:flex;align-items:center;gap:9px;padding-right:16px;border-right:1px solid rgba(255,255,255,.15);margin-right:8px;flex-shrink:0}
 .brand-icon{width:30px;height:30px;background:rgba(255,255,255,.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;border:1px solid rgba(255,255,255,.2)}
 .brand-name{font-size:13px;font-weight:700;letter-spacing:.5px;line-height:1}
-.brand-sub{font-size:9px;opacity:.6;margin-top:1px}
+.brand-sub{font-size:10px;opacity:.6;margin-top:1px}
 .topbar-nav{display:flex;height:100%;flex:1}
-.tnav{display:flex;align-items:center;gap:5px;padding:0 11px;font-size:11.5px;font-weight:500;cursor:pointer;opacity:.65;border-bottom:2px solid transparent;transition:all var(--tr);white-space:nowrap;color:#fff;text-decoration:none}
+.tnav{display:flex;align-items:center;gap:5px;padding:0 11px;font-size:12.5px;font-weight:500;cursor:pointer;opacity:.65;border-bottom:2px solid transparent;transition:all var(--tr);white-space:nowrap;color:#fff;text-decoration:none}
 .tnav:hover{opacity:.9;background:rgba(255,255,255,.07)}
 .tnav.active{opacity:1;border-bottom-color:rgba(255,255,255,.8);background:rgba(255,255,255,.1)}
 .tnav i{font-size:13px}
@@ -72,9 +72,9 @@ html,body{height:100%;font-family:var(--font);background:#ECEEF2;color:var(--gra
 .statsbar{background:var(--white);border-bottom:1px solid var(--gray200);padding:0 16px;display:flex;flex-shrink:0;box-shadow:var(--shadow-sm)}
 .stat{display:flex;flex-direction:column;align-items:center;padding:8px 18px;border-right:1px solid var(--gray100);position:relative;min-width:75px}
 .stat:last-child{border-right:none}
-.stat-val{font-size:22px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.5px}
+.stat-val{font-size:24px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.5px}
 .stat-val.r{color:var(--r)}.stat-val.a{color:var(--a)}.stat-val.g{color:var(--g)}.stat-val.b{color:var(--b)}.stat-val.gray{color:var(--gray400)}
-.stat-lbl{font-size:9px;color:var(--gray400);margin-top:2px;white-space:nowrap;font-weight:600;text-transform:uppercase;letter-spacing:.4px}
+.stat-lbl{font-size:10px;color:var(--gray400);margin-top:2px;white-space:nowrap;font-weight:600;text-transform:uppercase;letter-spacing:.4px}
 .stat-bar{position:absolute;bottom:0;left:0;height:2px;border-radius:2px 2px 0 0;transition:width .6s ease}
 
 /* BODY */
@@ -87,7 +87,7 @@ html,body{height:100%;font-family:var(--font);background:#ECEEF2;color:var(--gra
 .sidebar-inner::-webkit-scrollbar-thumb{background:var(--gray200);border-radius:2px}
 .sb-section{padding:12px 8px 2px}
 .sb-sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;padding:0 4px}
-.sb-sec-lbl{font-size:9px;font-weight:700;color:var(--gray400);text-transform:uppercase;letter-spacing:.7px}
+.sb-sec-lbl{font-size:10px;font-weight:700;color:var(--gray400);text-transform:uppercase;letter-spacing:.7px}
 .sb-add-btn{width:17px;height:17px;border-radius:50%;background:var(--gray100);border:none;cursor:pointer;color:var(--gray500);font-size:14px;display:flex;align-items:center;justify-content:center;transition:all var(--tr)}
 .sb-add-btn:hover{background:var(--gl);color:var(--g)}
 .sb-add-row{display:none;padding:3px 4px;gap:4px;margin-bottom:2px}
@@ -99,7 +99,7 @@ html,body{height:100%;font-family:var(--font);background:#ECEEF2;color:var(--gra
 .sb-item:hover{background:var(--gray50);border-left-color:var(--gray300)}
 .sb-item:hover .sb-del{opacity:1}
 .sb-item.active{background:var(--rl);border-left-color:var(--r)}
-.sb-item-name{flex:1;font-size:11px;font-weight:500;color:var(--gray700);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.sb-item-name{flex:1;font-size:12px;font-weight:500;color:var(--gray700);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .sb-item.active .sb-item-name{color:var(--r);font-weight:600}
 .sb-badge{font-size:9px;padding:2px 6px;border-radius:10px;font-weight:700;flex-shrink:0;min-width:22px;text-align:center}
 .sb-badge.r{background:var(--r);color:#fff}
@@ -130,8 +130,8 @@ html,body{height:100%;font-family:var(--font);background:#ECEEF2;color:var(--gra
 /* CONTENT HDR */
 .content-hdr{background:var(--white);border-bottom:1px solid var(--gray200);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-shrink:0}
 .content-hdr-left{display:flex;flex-direction:column;gap:1px;min-width:0}
-.content-title{font-size:14px;font-weight:700;color:var(--gray900);letter-spacing:-.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.content-sub{font-size:10px;color:var(--gray400)}
+.content-title{font-size:15px;font-weight:700;color:var(--gray900);letter-spacing:-.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.content-sub{font-size:11px;color:var(--gray400)}
 .content-hdr-right{display:flex;align-items:center;gap:5px;flex-shrink:0;flex-wrap:wrap}
 .filter-pills{display:flex;gap:3px;flex-wrap:wrap}
 .pill{font-size:10px;padding:3px 9px;border-radius:20px;cursor:pointer;border:1.5px solid var(--gray200);background:var(--white);color:var(--gray500);font-weight:600;transition:all var(--tr)}
@@ -150,7 +150,7 @@ html,body{height:100%;font-family:var(--font);background:#ECEEF2;color:var(--gra
 .dept-hdr:hover{background:var(--gray50)}
 .dept-hdr-l{display:flex;align-items:center;gap:8px;min-width:0;flex:1;overflow:hidden}
 .dept-icon-wrap{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;background:var(--gray50);border:1px solid var(--gray200);flex-shrink:0;min-width:28px}
-.dept-name{font-size:12px;font-weight:700;color:var(--gray800);white-space:nowrap;flex-shrink:0}
+.dept-name{font-size:13px;font-weight:700;color:var(--gray800);white-space:nowrap;flex-shrink:0}
 .dept-cnt{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;white-space:nowrap;flex-shrink:0}
 .dept-cnt.alert{background:var(--r);color:#fff}
 .dept-cnt.info{background:var(--gray100);color:var(--gray600)}
@@ -173,7 +173,7 @@ html,body{height:100%;font-family:var(--font);background:#ECEEF2;color:var(--gra
 .task-status.prog{background:var(--al);color:var(--a);border:1.5px solid var(--am)}
 .task-status.done{background:var(--gl);color:var(--g);border:1.5px solid var(--gm)}
 .task-body{flex:1;min-width:0}
-.task-text{font-size:12px;line-height:1.6;color:var(--gray700);word-break:break-word;white-space:normal;display:block;overflow:visible}
+.task-text{font-size:13px;line-height:1.6;color:var(--gray700);word-break:break-word;white-space:normal;display:block;overflow:visible}
 .task-text.done{color:var(--gray400);text-decoration:line-through}
 .task-meta{display:flex;align-items:center;gap:6px;margin-top:3px;flex-wrap:wrap}
 .task-age{font-size:10px;color:var(--gray400)}
@@ -216,7 +216,7 @@ html,body{height:100%;font-family:var(--font);background:#ECEEF2;color:var(--gra
 .exec-card-title i{font-size:14px;color:var(--gray500)}
 .risk-table{width:100%;border-collapse:collapse}
 .risk-table th{text-align:left;padding:6px 10px;font-size:10px;font-weight:700;color:var(--gray400);text-transform:uppercase;letter-spacing:.4px;border-bottom:1.5px solid var(--gray100);white-space:nowrap}
-.risk-table td{padding:8px 10px;border-bottom:1px solid var(--gray100);font-size:12px;vertical-align:middle}
+.risk-table td{padding:8px 10px;border-bottom:1px solid var(--gray100);font-size:13px;vertical-align:middle}
 .risk-table tr:last-child td{border-bottom:none}
 .risk-table tbody tr{cursor:pointer;transition:background var(--tr)}
 .risk-table tbody tr:hover td{background:var(--gray50)}
@@ -360,6 +360,8 @@ html,body{height:100%;font-family:var(--font);background:#ECEEF2;color:var(--gra
       <div class="conn-dot connecting" id="conn-dot"></div>
       <span id="conn-txt">Conectando...</span>
     </div>
+    <button class="icon-btn" onclick="openCmdk()" title="Buscar / saltar (Ctrl+K)"><i class="ti ti-command"></i></button>
+    <button class="icon-btn" onclick="startWarRoom()" title="Modo proyector / War Room"><i class="ti ti-device-tv"></i></button>
     <button class="icon-btn" id="refresh-btn" onclick="refresh()" title="Actualizar"><i class="ti ti-refresh" id="refresh-ico"></i></button>
   </div>
 </div>
@@ -379,14 +381,16 @@ html,body{height:100%;font-family:var(--font);background:#ECEEF2;color:var(--gra
 <!-- STATS -->
 <div class="statsbar">
   <div class="stat"><span class="stat-val b" id="s-cl">—</span><span class="stat-lbl">Clientes</span></div>
-  <div class="stat"><span class="stat-val r" id="s-op">—</span><span class="stat-lbl">Pendientes</span><div class="stat-bar" id="sb-op" style="background:var(--r);width:0%"></div></div>
-  <div class="stat"><span class="stat-val a" id="s-pr">—</span><span class="stat-lbl">En proceso</span><div class="stat-bar" id="sb-pr" style="background:var(--a);width:0%"></div></div>
-  <div class="stat"><span class="stat-val g" id="s-dn">—</span><span class="stat-lbl">Completadas</span><div class="stat-bar" id="sb-dn" style="background:var(--g);width:0%"></div></div>
+  <div class="stat"><span class="stat-val r" id="s-op">—</span><span class="stat-lbl">Pendientes</span><div class="stat-spark" id="spk-op"></div><div class="stat-bar" id="sb-op" style="background:var(--r);width:0%"></div></div>
+  <div class="stat"><span class="stat-val a" id="s-pr">—</span><span class="stat-lbl">En proceso</span><div class="stat-spark" id="spk-pr"></div><div class="stat-bar" id="sb-pr" style="background:var(--a);width:0%"></div></div>
+  <div class="stat"><span class="stat-val g" id="s-dn">—</span><span class="stat-lbl">Completadas</span><div class="stat-spark" id="spk-dn"></div><div class="stat-bar" id="sb-dn" style="background:var(--g);width:0%"></div></div>
   <div class="stat"><span class="stat-val gray" id="s-arr">—</span><span class="stat-lbl">Arranques</span></div>
   <div class="stat"><span class="stat-val gray" id="s-exp">—</span><span class="stat-lbl">Expansiones</span></div>
   <div class="stat"><span class="stat-val gray" id="s-rol">—</span><span class="stat-lbl">Roll Outs</span></div>
   <div class="stat"><span class="stat-val gray" id="s-sync" style="font-size:10px">—</span><span class="stat-lbl">Último sync</span></div>
 </div>
+
+<div class="change-ribbon" id="change-ribbon" style="display:none"></div>
 
 <!-- BODY -->
 <div class="body">
@@ -422,6 +426,10 @@ html,body{height:100%;font-family:var(--font);background:#ECEEF2;color:var(--gra
         <span class="pill" onclick="setDeptFilter('IT',this)">IT</span>
         <span class="pill" onclick="setDeptFilter('INVENTARIOS',this)">Inventarios</span>
       </div>
+      <div class="bv-toggle" id="board-view-toggle" style="display:none">
+        <button class="bv-b on" id="bv-kanban" onclick="setBoardView('kanban')"><i class="ti ti-layout-kanban"></i> Kanban</button>
+        <button class="bv-b" id="bv-lista" onclick="setBoardView('lista')"><i class="ti ti-list"></i> Lista</button>
+      </div>
       <select class="ar-sel" id="ar-sel" onchange="setAutoRefresh(this.value)">
         <option value="0">Sin auto-refresh</option>
         <option value="60" selected>Refresh 1 min</option>
@@ -436,6 +444,22 @@ html,body{height:100%;font-family:var(--font);background:#ECEEF2;color:var(--gra
   </div>
 </div>
 </div>
+</div>
+
+<div class="modal-bg" id="taskEditorBg" onclick="if(event.target===this)closeTaskEditor()">
+  <div class="modal" style="width:520px">
+    <div class="modal-hdr"><div class="modal-title" id="te-title">Tarea</div><button class="modal-close" onclick="closeTaskEditor()">&#10005;</button></div>
+    <div class="modal-body" id="te-body"></div>
+    <div class="modal-ftr" id="te-ftr"></div>
+  </div>
+</div>
+
+<div class="cmdk-bg" id="cmdkBg" onclick="if(event.target===this)closeCmdk()">
+  <div class="cmdk">
+    <div class="cmdk-input-wrap"><i class="ti ti-search"></i><input id="cmdk-inp" placeholder="Salta a un cliente, vista o accion..." autocomplete="off" oninput="cmdkFilter()" onkeydown="cmdkKey(event)"></div>
+    <div class="cmdk-list" id="cmdk-list"></div>
+    <div class="cmdk-foot"><span>&#8593;&#8595; navegar</span><span>&#8629; abrir</span><span>esc cerrar</span></div>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -453,6 +477,11 @@ let DATA={clients:{arranques:[],expansiones:[],rollouts:[]}};
 let curClient=null,curCat=null,deptFilter="all";
 let collapsed={},arTimer=null,currentTab="tracker";
 let isConnected=false,isSearchMode=false;
+let boardView='kanban';
+const WIP_LIMIT=5;
+const OWNERS=[{e:'',n:'Sin asignar'},{e:'dlopez@tacna.net',n:'D. Lopez'},{e:'julopez@tacna.net',n:'J. Lopez'},{e:'igarcia@tacna.net',n:'I. Garcia'},{e:'jpardo@tacna.net',n:'J. Pardo'},{e:'fchinchillas@tacna.net',n:'F. Chinchillas'},{e:'dmurillo@tacna.net',n:'D. Murillo'},{e:'pjimenez@tacna.net',n:'P. Jimenez'}];
+const DEPT_COLOR={CONTABILIDAD:'--g',COMPLIANCE:'--p','IMPORT/EXPORT':'--a',IT:'--gray500',INVENTARIOS:'--gray700',EHS:'--r',HR:'--b'};
+var TASK_EDIT=null,KB_DRAG=null;
 
 // SEARCH DB - using simple strings only, no special chars
 const SEARCH_DB=[{"id": "s1", "subj": "RE: Virtual Mensual Mayo - Car Sound / Ryerson", "from": "vlopez@tacna.net", "date": "Jun 5", "client": "MAGNAFLOW", "dept": "IMPORT/EXPORT", "sum": "Direccion NO cerrara pedimento sin informacion completa; ya es auditable por la autoridad, riesgo de multas a la razon social.", "task": "Completar info para cierre de pedimento (riesgo multa)", "kw": ["pedimento", "magnaflow", "ryerson", "multa", "auditable"]}, {"id": "s2", "subj": "Re: MagnaFlow - EHS Compliance", "from": "fchinchillas@tacna.net", "date": "Jun 5", "client": "MAGNAFLOW", "dept": "EHS", "sum": "Land Use License: falta copia de ID vigente del arrendatario; Via Capital no la ha compartido. TACNA dara seguimiento.", "task": "Obtener ID vigente arrendatario para Land Use License", "kw": ["ehs", "land use", "magnaflow", "via capital", "licencia"]}, {"id": "s3", "subj": "Carta Oferta - Ingeniero de Manufactura Bilingue MICROMETALES", "from": "aavelar@tacna.net", "date": "Jun 5", "client": "MICROMETALS", "dept": "HR", "sum": "Carta oferta enviada a Jiaming Huang; 4 dias para responder. Cliente (Alan Ramirez) aprobo la propuesta.", "task": "Dar seguimiento a aceptacion de oferta (4 dias)", "kw": ["candidato", "mandarin", "micrometals", "oferta", "bilingue"]}, {"id": "s4", "subj": "Re: Kick-off meeting - transition to TACNA", "from": "wneubauer@conesys.com", "date": "Jun 5", "client": "CONESYS", "dept": "COMPLIANCE", "sum": "Aviso de Non-Renewal enviado a CPI / Grupo Esparza con acuse y confirmacion de lectura solicitados.", "task": "Confirmar acuse de Non-Renewal CPI/Grupo Esparza", "kw": ["conesys", "non-renewal", "kick-off", "cpi", "esparza"]}, {"id": "s5", "subj": "Re: Kick-off meeting - transition to TACNA", "from": "gmoreno@s-s.mx", "date": "Jun 5", "client": "CONESYS", "dept": "COMPLIANCE", "sum": "Legal: entrega en tiempo y forma; sugiere enviar version escaneada del aviso de no renovacion.", "task": "Enviar version escaneada del aviso de no renovacion", "kw": ["conesys", "legal", "non-renewal", "escaneado"]}, {"id": "s6", "subj": "FONDO DE AHORRO VIDRIOS MUNDIALES SEM#22", "from": "anperez@tacna.net", "date": "Jun 5", "client": "VIDRIOS", "dept": "HR", "sum": "Fondos de Ahorro de finiquitos Vidrios Mundiales SEM#22 para revision de Jesus Hernandez.", "task": "Procesar Fondo de Ahorro finiquitos SEM 22", "kw": ["fondo ahorro", "vidrios", "finiquito", "nomina"]}, {"id": "s7", "subj": "Re: B+L IMMEX Line - IT Alignment Session", "from": "Nick.Dobrov@bausch.com", "date": "Jun 5", "client": "BAUSCH", "dept": "IT", "sum": "Nick Dobrov pide aclarar diferencias entre permisos View y Review para el doc de accesos al portal.", "task": "Aclarar permisos portal View vs Review", "kw": ["bausch", "b+l", "immex", "it", "portal", "accesos"]}, {"id": "s8", "subj": "Quick Check: Vidrios Docs", "from": "Jose.Padilla@magnaflow.com", "date": "Jun 5", "client": "VIDRIOS", "dept": "COMPLIANCE", "sum": "Junta Teams para revisar y confirmar la lista de documentos de Vidrios.", "task": "Confirmar checklist de documentos Vidrios", "kw": ["vidrios", "docs", "checklist", "teams"]}, {"id": "s9", "subj": "RE: Meeting to review status of Closure topics", "from": "jparriaga@tacna.net", "date": "Jun 5", "client": "VINVENTIONS", "dept": "COMPLIANCE", "sum": "Revisar estatus interno de los temas de cierre (Closure) con Vinventions; responder a Cozart.", "task": "Revisar estatus interno de Closure topics", "kw": ["vinventions", "closure", "cierre", "cozart"]}, {"id": "s10", "subj": "Re: Funds Request Week 22-2026", "from": "alex@ryteventures.com", "date": "Jun 5", "client": "MERCH FARM", "dept": "CONTABILIDAD", "sum": "Fondos recibidos; transferencia a Monex en proceso (Semana 22).", "task": "Confirmar wire a Monex Semana 22", "kw": ["merch farm", "ryte", "fondos", "monex", "wire"]}, {"id": "s11", "subj": "Re: Container TK09 (065N) North - Vidrios Mundiales", "from": "sleon@tacna.net", "date": "Jun 5", "client": "VIDRIOS", "dept": "IMPORT/EXPORT", "sum": "Documentos de despacho del contenedor TK09 enviados; verificar que la informacion sea correcta.", "task": "Verificar docs de despacho contenedor TK09", "kw": ["vidrios", "contenedor", "despacho", "tk09"]}, {"id": "s12", "subj": "Re: Candidatos Ing Manufactura Bilingue - aprobada propuesta", "from": "aramirez@micrometals.com", "date": "Jun 5", "client": "MICROMETALS", "dept": "HR", "sum": "Cliente confirma: propuesta aprobada para el candidato bilingue.", "task": "Continuar proceso de contratacion (propuesta aprobada)", "kw": ["micrometals", "candidato", "propuesta", "aprobada"]}];
@@ -553,6 +582,8 @@ function updateStats(){
   document.getElementById('sb-op').style.width=Math.round(op/tot*100)+'%';
   document.getElementById('sb-pr').style.width=Math.round(pr/tot*100)+'%';
   document.getElementById('sb-dn').style.width=Math.round(dn/tot*100)+'%';
+  if(typeof renderChangeRibbon==='function')renderChangeRibbon();
+  if(typeof injectStatSparks==='function')injectStatSparks();
 }
 function buildSidebar(){
   const cats=[{key:'arranques',label:'Arranques'},{key:'expansiones',label:'Expansiones'},{key:'rollouts',label:'Roll Outs'}];
@@ -566,8 +597,9 @@ function buildSidebar(){
     clients.forEach(c=>{
       const open=cnt(c,'open');const isActive=curClient&&norm(curClient.name)===norm(c.name);
       const hasCands=SCAN_CANDIDATES.filter(sc=>sc.client===c.name&&!sc.dismissed&&!sc.approved).length;
+      var worst=0;Object.keys(c.tasks||{}).forEach(function(dp){(c.tasks[dp]||[]).forEach(function(t){if(t.s==='done')return;var r=lssSev(t)*lssProb(t);if(r>worst)worst=r;});});var dotc=worst>=15?'r':worst>=8?'a':worst>0?'g':'gray';
       html+='<div class="sb-item'+(isActive?' active':'')+'" id="si-'+idSafe(c.name)+'" onclick="selClient(\''+esc(c.name)+'\',\''+key+'\')">';
-      html+='<span class="sb-item-name">'+c.name+'</span>';
+      html+='<span class="sb-dot '+dotc+'" title="Riesgo maximo abierto S\u00d7P: '+worst+'"></span><span class="sb-item-name">'+c.name+'</span>';
       html+='<div style="display:flex;align-items:center;gap:3px">';
       if(hasCands>0)html+='<span style="font-size:9px;padding:1px 5px;border-radius:8px;background:#1D4ED8;color:#fff;font-weight:700">'+hasCands+'✉</span>';
       html+='<span class="sb-badge '+(open>0?'r':cnt(c)>0?'g':'gray')+'">'+(open>0?open:cnt(c)>0?'':'—')+'</span>';
@@ -668,63 +700,112 @@ function setDeptFilter(f,el){
   deptFilter=f;document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));el.classList.add('active');
   if(curClient)renderBoard();
 }
+function deptColorVar(d){return DEPT_COLOR[d]||'--gray500';}
+function ownerInitial(o){o=String(o||'');if(!o)return '';var m=OWNERS.find(function(x){return x.e===o;});if(m&&m.n)return m.n.replace(/[^A-Za-z. ]/g,'').split(/[ .]+/).filter(Boolean).map(function(w){return w[0];}).join('').slice(0,2).toUpperCase();return o.split('@')[0].slice(0,2).toUpperCase();}
+function rpnOf(t){return lssSev(t)*lssProb(t);}
+function rpnColor(r){return r>=15?'var(--r)':r>=8?'var(--a)':'var(--g)';}
+function scanPanelHtml(){
+  var cc=SCAN_CANDIDATES.filter(function(c){return c.client===curClient.name&&!c.dismissed&&!c.approved;});
+  if(!cc.length)return '';
+  var h='<div class="scan-panel"><div class="scan-panel-hdr"><div class="scan-panel-title"><i class="ti ti-mail-bolt"></i> '+cc.length+' pendiente'+(cc.length>1?'s':'')+' detectado'+(cc.length>1?'s':'')+' de Outlook</div><span style="font-size:10px;color:rgba(255,255,255,.7)">Aprueba o descarta</span></div><div class="scan-candidates">';
+  cc.forEach(function(c){
+    h+='<div class="candidate-row" id="cand-'+c.id+'"><div class="candidate-body"><div class="candidate-task">'+c.task+'</div><div class="candidate-meta"><span class="candidate-dept">'+c.dept+'</span><span>'+c.from+' \u00b7 '+c.date+'</span><span class="candidate-reason">'+c.reason+'</span></div></div>';
+    h+='<div class="candidate-actions"><button class="cand-approve" onclick="approveCandidate(\''+c.id+'\')"><i class="ti ti-check" style="font-size:11px"></i> Agregar</button><button class="cand-reject" onclick="rejectCandidate(\''+c.id+'\')">Descartar</button></div></div>';
+  });
+  return h+'</div></div>';
+}
 function renderBoard(){
   if(!curClient){
     document.getElementById('board').innerHTML='<div class="empty-state"><div class="empty-icon"><i class="ti ti-layout-kanban"></i></div><div class="empty-title">Selecciona un cliente</div><div class="empty-sub">Elige un cliente del panel izquierdo</div></div>';
     return;
   }
-  const allDepts=[...DEPTS,...Object.keys(curClient.tasks||{}).filter(d=>!DEPTS.includes(d))];
-  let html='';
-  // Scan candidates panel
-  const clientCandidates=SCAN_CANDIDATES.filter(c=>c.client===curClient.name&&!c.dismissed&&!c.approved);
-  if(clientCandidates.length>0){
-    html+='<div class="scan-panel"><div class="scan-panel-hdr"><div class="scan-panel-title"><i class="ti ti-mail-bolt"></i> '+clientCandidates.length+' pendiente'+(clientCandidates.length>1?'s':'')+' detectado'+(clientCandidates.length>1?'s':'')+' de Outlook</div><span style="font-size:10px;color:rgba(255,255,255,.7)">Aprueba o descarta</span></div><div class="scan-candidates">';
-    clientCandidates.forEach(c=>{
-      html+='<div class="candidate-row" id="cand-'+c.id+'"><div class="candidate-body"><div class="candidate-task">'+c.task+'</div><div class="candidate-meta"><span class="candidate-dept">'+c.dept+'</span><span>'+c.from+' · '+c.date+'</span><span class="candidate-reason">'+c.reason+'</span></div></div>';
-      html+='<div class="candidate-actions"><button class="cand-approve" onclick="approveCandidate(\''+c.id+'\')"><i class="ti ti-check" style="font-size:11px"></i> Agregar</button><button class="cand-reject" onclick="rejectCandidate(\''+c.id+'\')">Descartar</button></div></div>';
-    });
-    html+='</div></div>';
-  }
-  allDepts.forEach(dept=>{
-    if(deptFilter!=='all'&&!dept.toUpperCase().includes(deptFilter.toUpperCase()))return;
-    const tasks=(curClient.tasks||{})[dept]||[];
-    const key=(curClient.name+'_'+dept).replace(/[^a-zA-Z0-9]/g,'_');
-    const col=collapsed[key]||false;
-    const openTasks=tasks.filter(t=>t.s==='open');
-    const doneTasks=tasks.filter(t=>t.s==='done');
-    const openCnt=openTasks.length;
-    const allDone=tasks.length>0&&doneTasks.length===tasks.length;
-    // avg days only for open tasks
-    const avgDays=openTasks.length>0?Math.round(openTasks.reduce((s,t)=>s+(t.days!=null?t.days:(TASK_CREATED[t.id]||14)),0)/openTasks.length):0;
-    const daysClass=avgDays>21?'overdue':avgDays>7?'warning':'ok';
+  var _bvt=document.getElementById('board-view-toggle');if(_bvt)_bvt.style.display=(currentTab==='tracker')?'flex':'none';
+  var html=scanPanelHtml();
+  html+=(boardView==='kanban')?renderKanban():renderLista();
+  document.getElementById('board').innerHTML=html||'<div class="empty-state"><div class="empty-icon"><i class="ti ti-circle-check"></i></div><div class="empty-title">Sin tareas</div><div class="empty-sub">Agrega tareas con el boton + Nueva tarea</div></div>';
+}
+function renderLista(){
+  var allDepts=[].concat(DEPTS, Object.keys(curClient.tasks||{}).filter(function(d){return DEPTS.indexOf(d)<0;}));
+  var html='';
+  allDepts.forEach(function(dept){
+    if(deptFilter!=='all'&&dept.toUpperCase().indexOf(deptFilter.toUpperCase())<0)return;
+    var tasks=(curClient.tasks||{})[dept]||[];
+    var key=(curClient.name+'_'+dept).replace(/[^a-zA-Z0-9]/g,'_');
+    var col=collapsed[key]||false;
+    var openTasks=tasks.filter(function(t){return t.s==='open';});
+    var doneTasks=tasks.filter(function(t){return t.s==='done';});
+    var openCnt=openTasks.length;
+    var allDone=tasks.length>0&&doneTasks.length===tasks.length;
     html+='<div class="dept-sec"><div class="dept-hdr" onclick="togDept(\''+key+'\')">';
-    html+='<div class="dept-hdr-l"><div class="dept-icon-wrap">'+(DEPT_ICONS[dept]||'📋')+'</div>';
+    html+='<div class="dept-hdr-l"><div class="dept-icon-wrap">'+(DEPT_ICONS[dept]||'\ud83d\udccb')+'</div>';
     html+='<span class="dept-name">'+dept+'</span>';
     if(openCnt>0)html+='<span class="dept-cnt alert">'+openCnt+' pendiente'+(openCnt>1?'s':'')+'</span>';
     else if(allDone)html+='<span class="dept-cnt done-all">Completo</span>';
     else if(tasks.length>0)html+='<span class="dept-cnt info">'+tasks.length+' tareas</span>';
     else html+='<span class="dept-cnt empty">vacio</span>';
-    if(avgDays>0&&openCnt>0)html+='<span class="dept-days '+daysClass+'"><i class="ti ti-clock" style="font-size:10px"></i> '+avgDays+'d prom</span>';
     html+='</div><i class="ti ti-chevron-down dept-toggle'+(col?' collapsed':'')+'" id="dt-'+key+'"></i></div>';
     html+='<div class="dept-body'+(col?' hidden':'')+'" id="db-'+key+'">';
-    tasks.forEach((task,i)=>{
-      const sc=task.s==='done'?'done':task.s==='prog'?'prog':'open';
-      const ic=task.s==='done'?'&#10003;':task.s==='prog'?'...':'!';
-      const days=(task.days!=null?task.days:(TASK_CREATED[task.id]||(Math.floor(Math.random()*28)+1)));
-      if(!TASK_CREATED[task.id])TASK_CREATED[task.id]=days;
-      const ageClass=days>21?'old':days>7?'mid':'';
-      const ageLabel=task.s!=='done'?(days>1?days+'d':'hoy'):'';
-      html+='<div class="task-row" onclick="cycleStatus(\''+esc(curClient.name)+'\',\''+curCat+'\',\''+dept+'\','+i+')">';
-      html+='<div class="task-status '+sc+'">'+ic+'</div>';
-      html+='<div class="task-body"><div class="task-text'+(task.s==='done'?' done':'')+'">'+htmlEsc(task.t||'')+(task.src==='email'?'<span class="task-src" style="margin-left:6px">email</span>':'')+'</div>';
-      if(ageLabel)html+='<div class="task-meta"><span class="task-age '+ageClass+'">'+ageLabel+'</span></div>';
-      html+='</div><div class="task-actions"><button class="task-del" onclick="event.stopPropagation();delTask(\''+esc(curClient.name)+'\',\''+curCat+'\',\''+dept+'\','+i+')">x</button></div></div>';
+    tasks.forEach(function(task,i){
+      var sc=task.s==='done'?'done':task.s==='prog'?'prog':'open';
+      var ic=task.s==='done'?'&#10003;':task.s==='prog'?'..':'!';
+      html+='<div class="task-row">';
+      html+='<div class="task-status '+sc+'" title="Clic para cambiar estado" onclick="event.stopPropagation();cycleStatus(\''+esc(curClient.name)+'\',\''+curCat+'\',\''+esc(dept)+'\','+i+')">'+ic+'</div>';
+      html+='<div class="task-body" style="cursor:pointer" onclick="openTaskEditor(\''+esc(task.id||'')+'\')"><div class="task-text'+(task.s==='done'?' done':'')+'">'+htmlEsc(task.t||'')+(task.src==='email'?'<span class="task-src" style="margin-left:6px">email</span>':'')+'</div>';
+      var tags='';
+      if(task.owner)tags+='<span class="task-tag"><i class="ti ti-user" style="font-size:9px"></i> '+esc(String(task.owner).split('@')[0])+'</span>';
+      if(task.dep&&task.dep.length)tags+='<span class="task-tag dep"><i class="ti ti-link" style="font-size:9px"></i> '+task.dep.length+'</span>';
+      if(tags)html+='<div class="task-meta">'+tags+'</div>';
+      html+='</div>';
+      html+='<div class="task-actions"><button class="task-edit" title="Editar" onclick="event.stopPropagation();openTaskEditor(\''+esc(task.id||'')+'\')"><i class="ti ti-pencil"></i></button><button class="task-del" title="Eliminar" onclick="event.stopPropagation();delTask(\''+esc(curClient.name)+'\',\''+curCat+'\',\''+esc(dept)+'\','+i+')">&#10005;</button></div></div>';
     });
-    html+='<div class="add-task-row"><input class="add-task-inp" id="ati-'+key+'" placeholder="+ Nueva tarea en '+dept+'..." onkeydown="if(event.key===\'Enter\')addTask(\''+esc(curClient.name)+'\',\''+curCat+'\',\''+dept+'\',\''+key+'\')"><button class="add-task-btn" onclick="addTask(\''+esc(curClient.name)+'\',\''+curCat+'\',\''+dept+'\',\''+key+'\')">Agregar</button></div>';
+    html+='<div class="add-task-row"><input class="add-task-inp" id="ati-'+key+'" placeholder="+ Nueva tarea en '+dept+'..." onkeydown="if(event.key===\'Enter\')addTask(\''+esc(curClient.name)+'\',\''+curCat+'\',\''+esc(dept)+'\',\''+key+'\')"><button class="add-task-btn" onclick="addTask(\''+esc(curClient.name)+'\',\''+curCat+'\',\''+esc(dept)+'\',\''+key+'\')">Agregar</button></div>';
     html+='</div></div>';
   });
-  document.getElementById('board').innerHTML=html||'<div class="empty-state"><div class="empty-icon"><i class="ti ti-circle-check"></i></div><div class="empty-title">Sin tareas</div><div class="empty-sub">Agrega tareas usando el campo en cada departamento</div></div>';
+  return html;
 }
+function flatTasks(){
+  var arr=[];
+  Object.keys(curClient.tasks||{}).forEach(function(dept){
+    if(deptFilter!=='all'&&dept.toUpperCase().indexOf(deptFilter.toUpperCase())<0)return;
+    (curClient.tasks[dept]||[]).forEach(function(t){arr.push({t:t,dept:dept});});
+  });
+  return arr;
+}
+function kanbanCard(o){
+  var t=o.t,dep=o.dept,cv=deptColorVar(dep),rpn=rpnOf(t);
+  var h='<div class="kb-card" draggable="true" ondragstart="kbDragStart(event,\''+esc(t.id||'')+'\')" ondragend="kbDragEnd(event)" onclick="openTaskEditor(\''+esc(t.id||'')+'\')">';
+  h+='<div class="kb-card-top"><span class="kb-dept" style="background:var('+cv+')">'+dep+'</span>';
+  h+='<span class="kb-rpn" title="Indice de riesgo S\u00d7P" style="color:'+rpnColor(rpn)+'">'+rpn+'</span></div>';
+  h+='<div class="kb-text">'+htmlEsc(t.t||'')+'</div>';
+  h+='<div class="kb-card-foot">';
+  if(t.owner)h+='<span class="kb-owner" title="'+esc(t.owner)+'">'+ownerInitial(t.owner)+'</span>';
+  else h+='<span class="kb-owner none" title="Sin asignar">--</span>';
+  if(t.dep&&t.dep.length)h+='<span class="kb-dep" title="Depende de '+t.dep.length+'"><i class="ti ti-link" style="font-size:10px"></i> '+t.dep.length+'</span>';
+  if(t.src==='email')h+='<span class="task-src">email</span>';
+  h+='</div></div>';
+  return h;
+}
+function renderKanban(){
+  var cols=[{k:'open',lbl:'Pendiente',cls:'open'},{k:'prog',lbl:'En proceso',cls:'prog'},{k:'done',lbl:'Completado',cls:'done'}];
+  var flat=flatTasks();
+  var html='<div class="kanban">';
+  cols.forEach(function(col){
+    var items=flat.filter(function(o){return (o.t.s||'open')===col.k;});
+    var wipWarn=(col.k==='prog'&&items.length>WIP_LIMIT);
+    html+='<div class="kb-col" ondragover="kbDragOver(event)" ondragleave="kbDragLeave(event)" ondrop="kbDrop(event,\''+col.k+'\')" data-col="'+col.k+'">';
+    html+='<div class="kb-col-hdr '+col.cls+'"><span class="kb-col-name">'+col.lbl+'</span><span class="kb-col-cnt'+(wipWarn?' wip':'')+'">'+items.length+(col.k==='prog'?' / '+WIP_LIMIT:'')+'</span></div>';
+    if(wipWarn)html+='<div class="kb-wip-warn"><i class="ti ti-alert-triangle"></i> Limite WIP excedido: termina antes de empezar mas</div>';
+    html+='<div class="kb-col-body">';
+    if(!items.length)html+='<div class="kb-empty">Sin tareas</div>';
+    items.sort(function(a,b){return rpnOf(b.t)-rpnOf(a.t);});
+    items.forEach(function(o){html+=kanbanCard(o);});
+    html+='</div>';
+    if(col.k==='open')html+='<button class="kb-add" onclick="openTaskEditor(\'\')"><i class="ti ti-plus"></i> Nueva tarea</button>';
+    html+='</div>';
+  });
+  return html+'</div>';
+}
+
 function togDept(key){
   collapsed[key]=!collapsed[key];
   document.getElementById('db-'+key)&&document.getElementById('db-'+key).classList.toggle('hidden');
@@ -792,12 +873,10 @@ function lssProb(t){
   if(t.pOv!=null&&t.pOv!=='')return Number(t.pOv);
   var p=(t.prio||'').toUpperCase();
   var n=((t.notas||'')+' '+(t.t||'')).toLowerCase();
-  var d=(t.days!=null?t.days:0);
   var s=2;
   if(p==='URGENTE')s=4;else if(p==='ALTA')s=3;else s=2;
   if(/bloquea|bloqueante|no se avanza|cr[ií]tico/.test(n))s=Math.max(s,4);
   if(/sin due|sin claridad|cliente debe|arrendador|accionistas|tercero|pendiente respuesta|pendiente firma|pendiente turno/.test(n))s=Math.min(5,s+1);
-  if(d>30)s=Math.min(5,s+1);
   if(/embargo|precautorio|auditor|clausura|multa|sanci[oó]n|revoca|suspensi[oó]n/.test(n))s=5;  // acciones de autoridad (auditoria/embargo): maxima prob de atorarse
   return Math.min(5,Math.max(1,s));
 }
@@ -821,6 +900,7 @@ function renderExec(){
   setEl('main-title','Torre de control de riesgos');
   setEl('main-sub','Vista de dirección · dónde está el riesgo, qué atender primero y dónde se concentra');
   document.getElementById('filter-pills').style.display='none';
+  var _bvt=document.getElementById('board-view-toggle');if(_bvt)_bvt.style.display='none';
   var all=allC();
   if(!all.length){document.getElementById('board').innerHTML='<div class="empty-state"><div class="empty-icon"><i class="ti ti-chart-dots"></i></div><div class="empty-title">Sin datos</div></div>';return;}
 
@@ -839,17 +919,14 @@ function renderExec(){
   clientRisk.sort(function(a,b){return b.rpn-a.rpn;});
 
   var critCount=clientRisk.filter(function(r){return r.rpn>=15;}).length;
-  var openBlockers=0,maxAge=0,totalOpen=0,totalDone=0,deptBlock={},ageB={a:0,b:0,c:0},enCancha=0,esperaTercero=0;
+  var openBlockers=0,totalOpen=0,totalDone=0,deptBlock={},enCancha=0,esperaTercero=0;
   all.forEach(function(c){
     Object.keys(c.tasks||{}).forEach(function(dept){
       (c.tasks[dept]||[]).forEach(function(t){
         if(t.s==='done'){totalDone++;return;}
         totalOpen++;
         var rpn=lssSev(t)*lssProb(t);
-        var d=(t.days!=null?t.days:(TASK_CREATED[t.id]||0));
-        if(d>maxAge)maxAge=d;
         if(rpn>=8){openBlockers++;deptBlock[dept]=(deptBlock[dept]||0)+1;if(nextOwner(t)==='TACNA')enCancha++;else esperaTercero++;}
-        if(d>21)ageB.c++;else if(d>7)ageB.b++;else ageB.a++;
       });
     });
   });
@@ -908,9 +985,6 @@ function renderExec(){
   }
   var concToggles=vbtn('conc','pareto','Barras')+vbtn('conc','table','Tabla');
 
-  function ageRow(lbl,n,tot,col){var w=tot?Math.round(n/tot*100):0;return '<div style="display:flex;align-items:center;gap:8px;margin:5px 0;font-size:12px"><span style="width:64px;color:var(--gray700)">'+lbl+'</span><div style="flex:1;height:12px;background:var(--gray100,#ececec);border-radius:4px;overflow:hidden"><div style="height:100%;width:'+w+'%;background:'+col+';opacity:.85"></div></div><span style="font-weight:600;color:var(--gray900);width:18px;text-align:right">'+n+'</span></div>';}
-  var agingTot=ageB.a+ageB.b+ageB.c;
-  var aging=ageRow('0–7 d',ageB.a,agingTot,'var(--g)')+ageRow('8–21 d',ageB.b,agingTot,'var(--a)')+ageRow('22+ d',ageB.c,agingTot,'var(--r)');
   var totOwn=enCancha+esperaTercero;
   function ownRow(lbl,n,tot,col){var w=tot?Math.round(n/tot*100):0;return '<div style="display:flex;align-items:center;gap:8px;margin:7px 0;font-size:13px"><span style="width:152px;color:var(--gray700)">'+lbl+'</span><div style="flex:1;height:14px;background:var(--gray100,#ececec);border-radius:4px;overflow:hidden"><div style="height:100%;width:'+w+'%;background:'+col+';opacity:.85"></div></div><span style="font-weight:700;color:var(--gray900);width:24px;text-align:right">'+n+'</span></div>';}
   var ownBody=totOwn?(ownRow('En nuestra cancha',enCancha,totOwn,'var(--a)')+ownRow('Esperando a terceros',esperaTercero,totOwn,'var(--gray400)')+'<div style="font-size:11px;color:var(--gray400);margin-top:6px">El siguiente paso de cada bloqueo, clasificado por quién lo tiene que mover. Editable cuando conectemos el ajuste de prioridades.</div>'):'<div style="font-size:12px;color:var(--gray400);padding:8px 0">Sin bloqueos abiertos.</div>';
@@ -939,11 +1013,11 @@ function renderExec(){
       '<div style="background:var(--gray50);border-radius:8px;padding:8px 12px"><div style="font-size:11px;color:var(--gray400)">Bloqueos vs '+k+'d</div><div style="font-size:18px;font-weight:700;color:'+arrowCol+'">'+arrow+' '+Math.abs(blDelta)+'</div></div>'+
     '</div>'+(function(){function fd(s){var d=new Date(s);return isNaN(d)?String(s).slice(0,10):(d.getDate()+'/'+(d.getMonth()+1));}return '<div style="font-size:11px;color:var(--gray400);margin-top:6px">'+HIST.length+' snapshots diarios · '+fd(HIST[0].date)+' → '+fd(HIST[HIST.length-1].date)+'</div>';})();
   }
-  var actHoy=[];all.forEach(function(c){var cat=clientCat(c);Object.keys(c.tasks||{}).forEach(function(dept){(c.tasks[dept]||[]).forEach(function(t){if(t.s==='done')return;var S=lssSev(t),P=lssProb(t);actHoy.push({client:c.name,cat:cat,dept:dept,t:t.t||'',owner:String(t.owner||'').split('@')[0],days:(t.days!=null?t.days:0),S:S,P:P,rpn:S*P});});});});
-  actHoy.sort(function(a,b){return b.rpn-a.rpn||b.days-a.days;});
-  var hoyBody='';actHoy.slice(0,5).forEach(function(a,i){var tk=a.t.length>62?a.t.slice(0,62)+'…':a.t;hoyBody+='<div onclick="selClient(\''+esc(a.client)+'\',\''+a.cat+'\');setTab(\'tracker\')" style="display:flex;align-items:center;gap:10px;margin:7px 0;font-size:12px;cursor:pointer"><span style="width:18px;height:18px;border-radius:50%;background:'+(i===0?'var(--r)':'var(--gray100,#ececec)')+';color:'+(i===0?'#fff':'var(--gray700)')+';display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex:none">'+(i+1)+'</span><span style="font-weight:600;color:var(--gray900);width:104px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+a.client+'</span><span style="flex:1;color:var(--gray700)">'+tk+'</span><span style="font-size:11px;color:var(--gray400);white-space:nowrap">'+a.dept+' · '+esc(a.owner)+' · '+a.days+'d</span><span style="background:var(--rl);color:var(--r);border-radius:6px;padding:2px 8px;font-size:11px;font-weight:700;white-space:nowrap">S'+a.S+'×P'+a.P+'='+a.rpn+'</span></div>';});
+  var actHoy=[];all.forEach(function(c){var cat=clientCat(c);Object.keys(c.tasks||{}).forEach(function(dept){(c.tasks[dept]||[]).forEach(function(t){if(t.s==='done')return;var S=lssSev(t),P=lssProb(t);actHoy.push({client:c.name,cat:cat,dept:dept,t:t.t||'',owner:String(t.owner||'').split('@')[0],S:S,P:P,rpn:S*P});});});});
+  actHoy.sort(function(a,b){return b.rpn-a.rpn;});
+  var hoyBody='';actHoy.slice(0,5).forEach(function(a,i){var tk=a.t.length>62?a.t.slice(0,62)+'…':a.t;hoyBody+='<div onclick="selClient(\''+esc(a.client)+'\',\''+a.cat+'\');setTab(\'tracker\')" style="display:flex;align-items:center;gap:10px;margin:7px 0;font-size:12px;cursor:pointer"><span style="width:18px;height:18px;border-radius:50%;background:'+(i===0?'var(--r)':'var(--gray100,#ececec)')+';color:'+(i===0?'#fff':'var(--gray700)')+';display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex:none">'+(i+1)+'</span><span style="font-weight:600;color:var(--gray900);width:104px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+a.client+'</span><span style="flex:1;color:var(--gray700)">'+tk+'</span><span style="font-size:11px;color:var(--gray400);white-space:nowrap">'+a.dept+' · '+esc(a.owner)+'</span><span style="background:var(--rl);color:var(--r);border-radius:6px;padding:2px 8px;font-size:11px;font-weight:700;white-space:nowrap">S'+a.S+'×P'+a.P+'='+a.rpn+'</span></div>';});
   if(!hoyBody)hoyBody='<div style="font-size:12px;color:var(--gray400);padding:8px 0">Sin pendientes abiertos.</div>';
-  document.getElementById('board').innerHTML='<div style="overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:12px">'+kpis+'<div class="exec-card">'+cardHead('ti-bolt','Acciones de hoy: top 5 por índice de riesgo (S×P)','')+hoyBody+'</div>'+
+  document.getElementById('board').innerHTML='<div style="overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:12px"><div style="display:flex;justify-content:flex-end;margin-bottom:-2px"><button class="exec-print-btn" onclick="execPrint()"><i class="ti ti-printer"></i> Imprimir / PDF</button></div>'+kpis+'<div class="exec-card">'+cardHead('ti-bolt','Acciones de hoy: top 5 por índice de riesgo (S×P)','')+hoyBody+'</div>'+
     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">'+
       '<div class="exec-card">'+cardHead('ti-target','Riesgo por cliente: qué tan grave y qué tan probable (Matriz)',mapToggles)+mapBody+'</div>'+
       '<div class="exec-card">'+cardHead('ti-list-numbers','Qué atender primero (FMEA)','')+'<table class="risk-table"><thead><tr><th>Cliente</th><th>Riesgo</th><th>Depto</th><th>Grav.</th><th>Prob.</th><th>Índice</th></tr></thead><tbody>'+fmea+'</tbody></table></div>'+
@@ -1037,6 +1111,7 @@ function setTab(tab,skipRender){
   currentTab=tab;
   ['tracker','email','dept','exec','manage'].forEach(t=>{var el=document.getElementById('nt-'+t);if(el)el.classList.toggle('active',t===tab);});
   const fp=document.getElementById('filter-pills');if(fp)fp.style.display=tab==='tracker'?'flex':'none';
+  var bvt=document.getElementById('board-view-toggle');if(bvt)bvt.style.display=tab==='tracker'?'flex':'none';
   if(tab==='tracker'){if(curClient)renderBoard();else clearSearch();}
   else if(tab==='email')renderEmailTab();
   else if(tab==='dept')renderDeptView();
@@ -1117,24 +1192,25 @@ function toast(msg,type){
 function tvz(r){return r>=15?'#ff5b5b':r>=8?'#f5b53d':'#4ed17a';}
 function warCompute(){
   var all=(typeof allC==='function')?allC():[];
-  var risk=[],blk=[],open=0,done=0,maxAge=0;
+  var risk=[],blk=[],open=0,done=0,enCancha=0;
   all.forEach(function(c){var best=null;
     Object.keys(c.tasks||{}).forEach(function(dept){(c.tasks[dept]||[]).forEach(function(t){
       if(t.s==='done'){done++;return;}open++;
-      var s=lssSev(t),p=lssProb(t),rpn=s*p,d=(t.days!=null?t.days:0);if(d>maxAge)maxAge=d;
-      blk.push({client:c.name,dept:dept,t:t.t||'',rpn:rpn,days:d});
+      var s=lssSev(t),p=lssProb(t),rpn=s*p;
+      blk.push({client:c.name,dept:dept,t:t.t||'',rpn:rpn});
+      if(rpn>=8&&(typeof nextOwner==='function')&&nextOwner(t)==='TACNA')enCancha++;
       if(!best||rpn>best.rpn)best={rpn:rpn};
     });});
     if(best)risk.push({name:c.name,rpn:best.rpn});
   });
   risk.sort(function(a,b){return b.rpn-a.rpn;});blk.sort(function(a,b){return b.rpn-a.rpn;});
   return {risk:risk,blockers:blk,crit:risk.filter(function(r){return r.rpn>=15;}).length,
-    blk:blk.filter(function(b){return b.rpn>=8;}).length,maxAge:maxAge,pct:Math.round(done/((open+done)||1)*100)};
+    blk:blk.filter(function(b){return b.rpn>=8;}).length,enCancha:enCancha,pct:Math.round(done/((open+done)||1)*100)};
 }
 function wrKPIs(){var d=warCompute();return '<div class="wr-scene-title">Resumen ejecutivo</div><div class="wr-kpis">'+
   '<div class="wr-kpi"><div class="n" style="color:#ff5b5b">'+d.crit+'</div><div class="l">Clientes en riesgo</div></div>'+
   '<div class="wr-kpi"><div class="n">'+d.blk+'</div><div class="l">Bloqueos abiertos</div></div>'+
-  '<div class="wr-kpi"><div class="n">'+d.maxAge+'</div><div class="l">D&iacute;as sin avanzar (m&aacute;x)</div></div>'+
+  '<div class="wr-kpi"><div class="n">'+d.enCancha+'</div><div class="l">En nuestra cancha</div></div>'+
   '<div class="wr-kpi"><div class="n">'+d.pct+'%</div><div class="l">Avance global</div></div></div>';}
 function wrBlockers(){var d=warCompute();var h='<div class="wr-scene-title">Bloqueos cr&iacute;ticos &mdash; atender ya</div>';
   d.blockers.slice(0,7).forEach(function(b){h+='<div class="wr-row"><span class="cli">'+b.client+'</span><span class="tk">'+b.t+'</span><span class="dp">'+b.dept+'</span><span class="wr-badge" style="background:'+tvz(b.rpn)+';color:#141110">'+b.rpn+'</span></div>';});
@@ -1211,6 +1287,291 @@ function setRisk(id,field,value){
 function closeRiskEditor(){var b=document.getElementById('riskEditorBg');if(b)b.classList.remove('show');}
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeRiskEditor();});
 document.addEventListener('click',function(e){if(e.target&&e.target.id==='riskEditorBg')closeRiskEditor();});
+</script>
+
+<style>
+/* ===== v2 visual additions ===== */
+.sb-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-right:1px}
+.sb-dot.r{background:var(--r)}.sb-dot.a{background:var(--a)}.sb-dot.g{background:var(--g)}.sb-dot.gray{background:var(--gray300)}
+
+.task-tag{font-size:10px;padding:1px 7px;border-radius:7px;background:var(--gray100);color:var(--gray600);font-weight:600;display:inline-flex;align-items:center;gap:3px}
+.task-tag.dep{background:var(--pl);color:var(--p)}
+.task-edit{font-size:11px;padding:3px 7px;border-radius:5px;border:1px solid var(--gray200);background:var(--white);cursor:pointer;color:var(--gray400);transition:all var(--tr)}
+.task-edit:hover{color:var(--b);border-color:var(--bm);background:var(--bl)}
+
+.bv-toggle{display:flex;background:var(--gray100);border-radius:var(--r-md);padding:2px;gap:2px}
+.bv-b{font-size:11px;font-weight:600;border:none;background:transparent;color:var(--gray500);padding:4px 10px;border-radius:7px;cursor:pointer;display:flex;align-items:center;gap:4px;font-family:var(--font);transition:all var(--tr)}
+.bv-b.on{background:var(--white);color:var(--gray900);box-shadow:var(--shadow-sm)}
+.bv-b i{font-size:13px}
+
+/* kanban */
+.kanban{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-items:start}
+.kb-col{background:var(--gray50);border:1px solid var(--gray200);border-radius:var(--r-xl);display:flex;flex-direction:column;min-height:140px;transition:background var(--tr),border-color var(--tr)}
+.kb-col.over{background:var(--bl);border-color:var(--b);border-style:dashed}
+.kb-col-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:2px solid var(--gray200);font-weight:700;color:var(--gray700);border-radius:var(--r-xl) var(--r-xl) 0 0}
+.kb-col-hdr.open{border-bottom-color:var(--rm)}.kb-col-hdr.prog{border-bottom-color:var(--am)}.kb-col-hdr.done{border-bottom-color:var(--gm)}
+.kb-col-name{text-transform:uppercase;letter-spacing:.4px;font-size:11px}
+.kb-col-cnt{font-size:11px;font-weight:700;color:var(--gray400);background:var(--white);border:1px solid var(--gray200);border-radius:10px;padding:1px 8px}
+.kb-col-cnt.wip{background:var(--rl);color:var(--r);border-color:var(--rm)}
+.kb-wip-warn{font-size:10px;color:var(--r);background:var(--rl);padding:5px 10px;display:flex;align-items:center;gap:5px;border-bottom:1px solid var(--rm);font-weight:600}
+.kb-col-body{padding:8px;display:flex;flex-direction:column;gap:7px;flex:1}
+.kb-empty{font-size:11px;color:var(--gray400);text-align:center;padding:18px 0;font-style:italic}
+.kb-card{background:var(--white);border:1px solid var(--gray200);border-radius:var(--r-md);padding:9px 10px;cursor:pointer;box-shadow:var(--shadow-sm);transition:box-shadow var(--tr),transform var(--tr);border-left:3px solid var(--gray300)}
+.kb-card:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.kb-card.dragging{opacity:.45;transform:rotate(1.5deg)}
+.kb-card-top{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:6px}
+.kb-dept{font-size:9px;font-weight:700;color:#fff;padding:2px 7px;border-radius:6px;letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px}
+.kb-rpn{font-size:13px;font-weight:800;font-variant-numeric:tabular-nums;flex-shrink:0}
+.kb-text{font-size:12.5px;line-height:1.45;color:var(--gray800);word-break:break-word}
+.kb-card-foot{display:flex;align-items:center;gap:6px;margin-top:8px}
+.kb-owner{width:22px;height:22px;border-radius:50%;background:var(--gray700);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.kb-owner.none{background:var(--gray100);color:var(--gray400);border:1px dashed var(--gray300)}
+.kb-dep{font-size:10px;color:var(--p);background:var(--pl);border-radius:6px;padding:1px 6px;font-weight:600;display:inline-flex;align-items:center;gap:3px}
+.kb-add{margin:0 8px 8px;padding:8px;border:1.5px dashed var(--gray300);border-radius:var(--r-md);background:transparent;color:var(--gray500);font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;font-family:var(--font);transition:all var(--tr)}
+.kb-add:hover{border-color:var(--r);color:var(--r);background:var(--rl)}
+
+/* change ribbon */
+.change-ribbon{background:var(--white);border-bottom:1px solid var(--gray200);padding:6px 16px;display:flex;align-items:center;gap:8px;flex-shrink:0;flex-wrap:wrap}
+.cr-lbl{font-size:10px;font-weight:700;color:var(--gray400);text-transform:uppercase;letter-spacing:.5px;display:flex;align-items:center;gap:5px}
+.cr-lbl i{font-size:13px}
+.cr-chip{font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px}
+.cr-chip.bad{background:var(--rl);color:var(--r)}
+.cr-chip.good{background:var(--gl);color:var(--g)}
+.cr-chip.neutral{background:var(--gray100);color:var(--gray500)}
+
+/* stat sparkline */
+.stat-spark{height:16px;width:54px;margin-top:3px;opacity:.75}
+.stat-spark:empty{display:none}
+
+/* exec print btn */
+.exec-print-btn{font-size:11px;font-weight:600;border:1px solid var(--gray200);background:var(--white);color:var(--gray600);padding:5px 12px;border-radius:var(--r-md);cursor:pointer;display:inline-flex;align-items:center;gap:5px;font-family:var(--font);transition:all var(--tr)}
+.exec-print-btn:hover{border-color:var(--r);color:var(--r);background:var(--rl)}
+
+/* task editor */
+.te-field{display:flex;flex-direction:column;gap:5px}
+.te-label{font-size:10px;font-weight:700;color:var(--gray400);text-transform:uppercase;letter-spacing:.6px}
+.te-ta{width:100%;font-size:13px;padding:9px 11px;border:1.5px solid var(--gray200);border-radius:var(--r-md);font-family:var(--font);color:var(--gray800);outline:none;resize:vertical;min-height:62px;line-height:1.5}
+.te-ta:focus{border-color:var(--r);box-shadow:0 0 0 3px rgba(192,39,45,.08)}
+.te-sel{font-size:13px;padding:8px 10px;border:1.5px solid var(--gray200);border-radius:var(--r-md);background:var(--white);color:var(--gray800);font-family:var(--font);outline:none;cursor:pointer;width:100%}
+.te-sel:focus{border-color:var(--r)}
+.te-2col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.te-grp{display:flex;gap:5px;flex-wrap:wrap}
+.te-b{padding:6px 0;width:34px;text-align:center;border:1px solid var(--gray200);border-radius:8px;background:var(--white);cursor:pointer;font-size:12px;color:var(--gray700);font-family:var(--font)}
+.te-b.on{background:var(--gray900);color:#fff;border-color:var(--gray900)}
+.te-b.auto{width:auto;padding:6px 10px;color:var(--gray500)}
+.te-status-grp .te-b{width:auto;padding:6px 12px;font-weight:600}
+.te-status-grp .te-b.on.open{background:var(--r);border-color:var(--r);color:#fff}
+.te-status-grp .te-b.on.prog{background:var(--a);border-color:var(--a);color:#fff}
+.te-status-grp .te-b.on.done{background:var(--g);border-color:var(--g);color:#fff}
+.te-dep-list{display:flex;flex-direction:column;gap:3px;max-height:130px;overflow-y:auto;border:1px solid var(--gray200);border-radius:var(--r-md);padding:6px}
+.te-dep-row{display:flex;align-items:center;gap:8px;padding:5px 7px;border-radius:6px;cursor:pointer;font-size:12px;color:var(--gray700)}
+.te-dep-row:hover{background:var(--gray50)}
+.te-dep-row.on{background:var(--pl);color:var(--p);font-weight:600}
+.te-dep-row .id{font-family:monospace;font-size:10px;color:var(--gray400)}
+.te-rpn-box{display:flex;align-items:center;gap:8px;border-top:1px solid var(--gray100);padding-top:12px}
+.te-rpn{font-weight:800;font-size:19px;margin-left:auto}
+.te-del-btn{background:var(--white);color:var(--r);border:1px solid var(--rm);padding:7px 14px;border-radius:var(--r-md);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);margin-right:auto;display:inline-flex;align-items:center;gap:5px}
+.te-del-btn:hover{background:var(--rl)}
+
+/* command palette */
+.cmdk-bg{position:fixed;inset:0;background:rgba(17,24,39,.45);backdrop-filter:blur(3px);z-index:1100;display:none;align-items:flex-start;justify-content:center;padding-top:12vh}
+.cmdk-bg.show{display:flex}
+.cmdk{background:var(--white);border-radius:var(--r-xl);width:560px;max-width:92vw;box-shadow:var(--shadow-xl);overflow:hidden;animation:modalIn .15s ease}
+.cmdk-input-wrap{display:flex;align-items:center;gap:9px;padding:14px 16px;border-bottom:1px solid var(--gray100)}
+.cmdk-input-wrap i{font-size:17px;color:var(--gray400)}
+.cmdk-input-wrap input{flex:1;border:none;outline:none;font-size:15px;font-family:var(--font);color:var(--gray900);background:transparent}
+.cmdk-list{max-height:46vh;overflow-y:auto;padding:6px}
+.cmdk-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--r-md);cursor:pointer;font-size:13px;color:var(--gray700)}
+.cmdk-item.sel{background:var(--rl);color:var(--r)}
+.cmdk-item i{font-size:15px;color:var(--gray400);flex-shrink:0}
+.cmdk-item.sel i{color:var(--r)}
+.cmdk-lbl{flex:1;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cmdk-sub{font-size:10px;color:var(--gray400);background:var(--gray100);padding:1px 7px;border-radius:8px;font-weight:600}
+.cmdk-empty{padding:18px;text-align:center;color:var(--gray400);font-size:13px}
+.cmdk-foot{display:flex;gap:14px;padding:9px 16px;border-top:1px solid var(--gray100);font-size:10px;color:var(--gray400)}
+
+@media(max-width:760px){.kanban{grid-template-columns:1fr}.te-2col{grid-template-columns:1fr}}
+</style>
+<script>
+/* ===== v2 behavior ===== */
+function setBoardView(v){boardView=v;var a=document.getElementById('bv-kanban'),b=document.getElementById('bv-lista');if(a)a.classList.toggle('on',v==='kanban');if(b)b.classList.toggle('on',v==='lista');if(curClient&&currentTab==='tracker')renderBoard();}
+
+/* kanban drag & drop */
+function kbDragStart(e,id){KB_DRAG=id;try{e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',id);}catch(_){}var c=e.currentTarget;if(c&&c.classList)c.classList.add('dragging');}
+function kbDragEnd(e){var c=e.currentTarget;if(c&&c.classList)c.classList.remove('dragging');document.querySelectorAll('.kb-col.over').forEach(function(x){x.classList.remove('over');});}
+function kbDragOver(e){e.preventDefault();try{e.dataTransfer.dropEffect='move';}catch(_){}var c=e.currentTarget;if(c&&c.classList)c.classList.add('over');}
+function kbDragLeave(e){var c=e.currentTarget;if(c&&c.classList)c.classList.remove('over');}
+function kbFind(id){var r=null;if(!curClient)return null;Object.keys(curClient.tasks||{}).forEach(function(dept){(curClient.tasks[dept]||[]).forEach(function(t){if(String(t.id)===String(id))r={t:t,dept:dept};});});return r;}
+function kbDrop(e,status){
+  e.preventDefault();var c=e.currentTarget;if(c&&c.classList)c.classList.remove('over');
+  var id=KB_DRAG;try{if(!id&&e.dataTransfer)id=e.dataTransfer.getData('text/plain');}catch(_){}
+  KB_DRAG=null;if(!id)return;
+  var f=kbFind(id);if(!f||(f.t.s||'open')===status)return;
+  f.t.s=status;updateStats();renderBoard();buildSidebar();
+  if(isConnected)pushTask({action:'updateTask',id:f.t.id,status:status,clientName:curClient.name,category:curCat,dept:f.dept,col:f.t.col,row:f.t.row});
+  toast('Movida a '+({open:'Pendiente',prog:'En proceso',done:'Completado'}[status]));
+}
+
+/* unified task editor (create + edit) */
+function matchDept(fl){var m=DEPTS.find(function(d){return d.toUpperCase().indexOf(fl.toUpperCase())>=0;});return m||DEPTS[0];}
+function tePseudo(){return {t:TASK_EDIT.text,notas:TASK_EDIT.notas,prio:TASK_EDIT.prio,sOv:TASK_EDIT.sOv,pOv:TASK_EDIT.pOv};}
+function openTaskEditor(id){
+  var existing=id?findTaskById(id):null;
+  if(id&&!existing)return;
+  if(!existing&&!curClient){toast('Selecciona un cliente primero','warn');return;}
+  var t=existing?existing.t:null;
+  TASK_EDIT={id:id||'',isNew:!id,
+    client:existing?existing.client:curClient.name,
+    cat:existing?existing.cat:curCat,
+    dept:existing?existing.dept:(deptFilter!=='all'?matchDept(deptFilter):DEPTS[0]),
+    text:t?(t.t||''):'',owner:t?(t.owner||''):'',status:t?(t.s||'open'):'open',
+    notas:t?(t.notas||''):'',prio:t?(t.prio||''):'',
+    sOv:(t&&t.sOv!=null&&t.sOv!=='')?Number(t.sOv):null,
+    pOv:(t&&t.pOv!=null&&t.pOv!=='')?Number(t.pOv):null,
+    dep:(t&&t.dep)?t.dep.slice():[]};
+  renderTaskEditor();
+  document.getElementById('taskEditorBg').classList.add('show');
+}
+function setTE(field,val){
+  var d=TASK_EDIT;if(!d)return;
+  if(field==='dept')d.dept=val;
+  else if(field==='owner')d.owner=val;
+  else if(field==='status')d.status=val;
+  else if(field==='S')d.sOv=(val===''?null:Number(val));
+  else if(field==='P')d.pOv=(val===''?null:Number(val));
+  else if(field==='dep'){var i=d.dep.indexOf(val);if(i>=0)d.dep.splice(i,1);else d.dep.push(val);}
+  renderTaskEditor();
+}
+function teText(v){if(TASK_EDIT)TASK_EDIT.text=v;}
+function renderTaskEditor(){
+  var d=TASK_EDIT;if(!d)return;
+  document.getElementById('te-title').textContent=(d.isNew?'Nueva tarea':'Editar tarea')+(d.id?(' \u00b7 '+d.id):'');
+  var effS=lssSev(tePseudo()),effP=lssProb(tePseudo()),rpn=effS*effP;
+  var rc=rpn>=15?'var(--r)':rpn>=8?'var(--a)':'var(--g)';
+  var deptOpts=[].concat(DEPTS,(curClient?Object.keys(curClient.tasks||{}):[]).filter(function(x){return DEPTS.indexOf(x)<0;}));
+  var deptSel='<select class="te-sel" onchange="setTE(\'dept\',this.value)">'+deptOpts.map(function(o){return '<option value="'+o+'"'+(o===d.dept?' selected':'')+'>'+o+'</option>';}).join('')+'</select>';
+  var ownSel='<select class="te-sel" onchange="setTE(\'owner\',this.value)">'+OWNERS.map(function(o){return '<option value="'+o.e+'"'+(o.e===d.owner?' selected':'')+'>'+o.n+'</option>';}).join('')+'</select>';
+  function statusB(){return ['open','prog','done'].map(function(v){var lbl={open:'Pendiente',prog:'En proceso',done:'Completado'}[v];return '<button class="te-b '+v+(d.status===v?(' on '+v):'')+'" onclick="setTE(\'status\',\''+v+'\')">'+lbl+'</button>';}).join('');}
+  function numB(field,ov){var h='';for(var v=1;v<=5;v++){h+='<button class="te-b'+((ov!=null&&ov===v)?' on':'')+'" onclick="setTE(\''+field+'\',\''+v+'\')">'+v+'</button>';}h+='<button class="te-b auto'+((ov==null)?' on':'')+'" onclick="setTE(\''+field+'\',\'\')">Auto</button>';return h;}
+  var cands=[];if(curClient){Object.keys(curClient.tasks||{}).forEach(function(dept){(curClient.tasks[dept]||[]).forEach(function(t){if(d.id&&String(t.id)===String(d.id))return;cands.push({id:t.id,t:t.t||'',dept:dept});});});}
+  var depList=cands.length?cands.map(function(c){var on=d.dep.indexOf(c.id)>=0;var tk=(c.t.length>46?c.t.slice(0,46)+'...':c.t);return '<div class="te-dep-row'+(on?' on':'')+'" onclick="setTE(\'dep\',\''+esc(c.id)+'\')"><span class="id">'+c.id+'</span><span style="flex:1">'+htmlEsc(tk)+'</span><span style="font-size:9px;color:var(--gray400)">'+c.dept+'</span></div>';}).join(''):'<div style="font-size:11px;color:var(--gray400);padding:6px">No hay otras tareas para enlazar</div>';
+  var sAuto=lssSev({t:d.text,notas:d.notas,prio:d.prio}),pAuto=lssProb({t:d.text,notas:d.notas,prio:d.prio});
+  var html=''+
+    '<div class="te-field"><div class="te-label">Tarea</div><textarea class="te-ta" oninput="teText(this.value)" placeholder="Describe la tarea...">'+htmlEsc(d.text)+'</textarea></div>'+
+    '<div class="te-2col"><div class="te-field"><div class="te-label">Departamento</div>'+deptSel+'</div><div class="te-field"><div class="te-label">Responsable</div>'+ownSel+'</div></div>'+
+    '<div class="te-field"><div class="te-label">Estado</div><div class="te-grp te-status-grp">'+statusB()+'</div></div>'+
+    '<div class="te-2col"><div class="te-field"><div class="te-label">Gravedad S (auto: '+sAuto+')</div><div class="te-grp">'+numB('S',d.sOv)+'</div></div><div class="te-field"><div class="te-label">Probabilidad P (auto: '+pAuto+')</div><div class="te-grp">'+numB('P',d.pOv)+'</div></div></div>'+
+    '<div class="te-field"><div class="te-label">Depende de (bloqueantes)</div><div class="te-dep-list">'+depList+'</div></div>'+
+    '<div class="te-rpn-box"><span style="font-size:12px;color:var(--gray500)">Indice de riesgo S\u00d7P</span><span class="te-rpn" style="color:'+rc+'">'+rpn+'</span></div>';
+  document.getElementById('te-body').innerHTML=html;
+  var ftr='';if(!d.isNew)ftr+='<button class="te-del-btn" onclick="teDelete()"><i class="ti ti-trash"></i> Eliminar</button>';
+  ftr+='<button class="modal-cancel" onclick="closeTaskEditor()">Cancelar</button><button class="modal-done" onclick="teSave()">'+(d.isNew?'Crear':'Guardar')+'</button>';
+  document.getElementById('te-ftr').innerHTML=ftr;
+}
+function teSave(){
+  var d=TASK_EDIT;if(!d)return;
+  if(!String(d.text).trim()){toast('Escribe el texto de la tarea','warn');return;}
+  var cl=(DATA.clients[d.cat]||[]).find(function(c){return norm(c.name)===norm(d.client);});
+  if(!cl){toast('Cliente no encontrado','err');return;}
+  if(!cl.tasks)cl.tasks={};
+  if(d.isNew){
+    if(!cl.tasks[d.dept])cl.tasks[d.dept]=[];
+    var nid='LOCAL_'+Date.now();
+    var nt={id:nid,t:d.text.trim(),s:d.status,owner:d.owner,dep:d.dep.slice(),source:'dashboard'};
+    if(d.sOv!=null)nt.sOv=d.sOv;if(d.pOv!=null)nt.pOv=d.pOv;
+    cl.tasks[d.dept].push(nt);
+    if(isConnected)pushTask({action:'addTask',clientName:d.client,category:d.cat,dept:d.dept,taskText:d.text.trim(),owner:d.owner,addedBy:'Dashboard'});
+    toast('Tarea creada');
+  }else{
+    var f=findTaskById(d.id);if(!f){toast('Tarea no encontrada','err');return;}var t=f.t;
+    if(f.dept!==d.dept){var arr=cl.tasks[f.dept]||[];var ix=arr.indexOf(t);if(ix>=0)arr.splice(ix,1);if(!cl.tasks[d.dept])cl.tasks[d.dept]=[];cl.tasks[d.dept].push(t);if(isConnected)pushTask({action:'updateField',id:d.id,field:'DEPT',value:d.dept});}
+    if((t.t||'')!==d.text){t.t=d.text;if(isConnected)pushTask({action:'updateField',id:d.id,field:'TEXT',value:d.text});}
+    if((t.owner||'')!==d.owner){t.owner=d.owner;if(isConnected)pushTask({action:'updateField',id:d.id,field:'OWNER',value:d.owner});}
+    if((t.s||'open')!==d.status){t.s=d.status;if(isConnected)pushTask({action:'updateTask',id:d.id,status:d.status,clientName:d.client,category:d.cat,dept:d.dept,col:t.col,row:t.row});}
+    var curS=(t.sOv!=null&&t.sOv!=='')?Number(t.sOv):null;if(curS!==d.sOv){t.sOv=d.sOv;if(isConnected)pushTask({action:'updateField',id:d.id,field:'S_OVERRIDE',value:(d.sOv==null?'':d.sOv)});}
+    var curP=(t.pOv!=null&&t.pOv!=='')?Number(t.pOv):null;if(curP!==d.pOv){t.pOv=d.pOv;if(isConnected)pushTask({action:'updateField',id:d.id,field:'P_OVERRIDE',value:(d.pOv==null?'':d.pOv)});}
+    var curDep=(t.dep||[]).join(','),newDep=d.dep.join(',');if(curDep!==newDep){t.dep=d.dep.slice();if(isConnected)pushTask({action:'updateField',id:d.id,field:'DEPENDE_DE',value:newDep});}
+    toast('Tarea actualizada');
+  }
+  closeTaskEditor();updateStats();buildSidebar();renderBoard();
+}
+function teDelete(){
+  var d=TASK_EDIT;if(!d||d.isNew)return;if(!confirm('Eliminar esta tarea?'))return;
+  var cl=(DATA.clients[d.cat]||[]).find(function(c){return norm(c.name)===norm(d.client);});
+  if(cl)Object.keys(cl.tasks||{}).forEach(function(dept){var a=cl.tasks[dept]||[];for(var i=a.length-1;i>=0;i--){if(String(a[i].id)===String(d.id))a.splice(i,1);}});
+  if(isConnected)pushTask({action:'deleteTask',id:d.id});
+  closeTaskEditor();updateStats();buildSidebar();renderBoard();toast('Tarea eliminada','warn');
+}
+function closeTaskEditor(){TASK_EDIT=null;var b=document.getElementById('taskEditorBg');if(b)b.classList.remove('show');}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeTaskEditor();});
+
+/* change ribbon + stat sparklines (history-driven, graceful) */
+function histArr(){return (typeof DATA!=='undefined'&&DATA&&DATA.history&&DATA.history.length)?DATA.history:[];}
+function renderChangeRibbon(){
+  var el=document.getElementById('change-ribbon');if(!el)return;
+  var H=histArr();if(H.length<2){el.style.display='none';return;}
+  var last=H[H.length-1],prev=H[H.length-2];
+  var k=Math.min(7,H.length-1),wk=H[H.length-1-k];
+  var dBlk=(last.bloqueos||0)-(prev.bloqueos||0);
+  var dOpen=((last.abiertas||0)+(last.prog||0))-((prev.abiertas||0)+(prev.prog||0));
+  var closed=wk?((last.done||0)-(wk.done||0)):0;
+  function chip(txt,cls){return '<span class="cr-chip '+cls+'">'+txt+'</span>';}
+  var h='<span class="cr-lbl"><i class="ti ti-history"></i> Desde el ultimo corte</span>';
+  h+=chip((dBlk>0?'\u25b2 ':dBlk<0?'\u25bc ':'')+Math.abs(dBlk)+' bloqueos',dBlk>0?'bad':dBlk<0?'good':'neutral');
+  h+=chip((dOpen>0?'+':'')+dOpen+' abiertas',dOpen>0?'bad':dOpen<0?'good':'neutral');
+  h+=chip(closed+' cerradas / '+k+'d','good');
+  el.innerHTML=h;el.style.display='flex';
+}
+function injectStatSparks(){
+  var H=histArr();var map=[['spk-op','abiertas','var(--r)'],['spk-pr','prog','var(--a)'],['spk-dn','done','var(--g)']];
+  map.forEach(function(m){var el=document.getElementById(m[0]);if(!el)return;if(H.length<2){el.innerHTML='';return;}var vals=H.map(function(x){return x[m[1]]||0;});el.innerHTML=(typeof sparkline==='function')?sparkline(vals,m[2],54,16):'';});
+}
+
+/* executive PDF one-pager */
+function execPrint(){
+  var all=(typeof allC==='function')?allC():[];var rows=[],crit=0,blk=0;
+  all.forEach(function(c){var best=null;Object.keys(c.tasks||{}).forEach(function(dept){(c.tasks[dept]||[]).forEach(function(t){if(t.s==='done')return;var s=lssSev(t),p=lssProb(t),rpn=s*p;rows.push({client:c.name,dept:dept,t:t.t||'',s:s,p:p,rpn:rpn,owner:String(t.owner||'').split('@')[0]});if(rpn>=8)blk++;if(!best||rpn>best.rpn)best={rpn:rpn};});});if(best&&best.rpn>=15)crit++;});
+  rows.sort(function(a,b){return b.rpn-a.rpn;});
+  function zc(r){return r>=15?'#C0272D':r>=8?'#B45309':'#15803D';}
+  var dt=new Date().toLocaleString('es-MX',{dateStyle:'long',timeStyle:'short'});
+  var trs=rows.slice(0,18).map(function(r){return '<tr><td style="font-weight:600">'+r.client+'</td><td>'+r.dept+'</td><td>'+String(r.t).replace(/</g,'&lt;')+'</td><td style="text-align:center">'+r.s+'</td><td style="text-align:center">'+r.p+'</td><td style="text-align:center;font-weight:800;color:'+zc(r.rpn)+'">'+r.rpn+'</td><td>'+(r.owner||'')+'</td></tr>';}).join('');
+  var html='<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Resumen Ejecutivo TACNA</title>'+
+    '<style>*{font-family:Arial,Helvetica,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}body{margin:28px;color:#111827}h1{font-size:20px;margin:0}.sub{color:#6B7280;font-size:12px;margin:2px 0 18px}'+
+    '.kpis{display:flex;gap:14px;margin-bottom:18px}.k{flex:1;border:1px solid #E5E7EB;border-radius:10px;padding:12px 14px}.k .n{font-size:26px;font-weight:800}.k .l{font-size:11px;color:#6B7280;margin-top:3px}'+
+    'table{width:100%;border-collapse:collapse;font-size:11px}th{text-align:left;background:#F3F4F6;padding:7px 8px;border-bottom:2px solid #E5E7EB;font-size:10px;text-transform:uppercase;letter-spacing:.4px;color:#6B7280}td{padding:6px 8px;border-bottom:1px solid #F3F4F6;vertical-align:top}'+
+    '.foot{margin-top:16px;font-size:10px;color:#9CA3AF}</style></head><body>'+
+    '<h1>TACNA &middot; Resumen Ejecutivo de Riesgos</h1><div class="sub">'+dt+' &middot; Indice S\u00d7P (FMEA) &middot; rojo &ge;15 / ambar &ge;8</div>'+
+    '<div class="kpis"><div class="k"><div class="n" style="color:#C0272D">'+crit+'</div><div class="l">Clientes en riesgo (&ge;15)</div></div>'+
+    '<div class="k"><div class="n">'+blk+'</div><div class="l">Bloqueos abiertos (&ge;8)</div></div>'+
+    '<div class="k"><div class="n">'+rows.length+'</div><div class="l">Pendientes totales</div></div>'+
+    '<div class="k"><div class="n">'+all.length+'</div><div class="l">Clientes activos</div></div></div>'+
+    '<table><thead><tr><th>Cliente</th><th>Depto</th><th>Riesgo</th><th>S</th><th>P</th><th>Indice</th><th>Responsable</th></tr></thead><tbody>'+trs+'</tbody></table>'+
+    '<div class="foot">Generado desde TACNA Operations Center &middot; Top 18 por indice de riesgo.</div>'+
+    '<scr'+'ipt>window.onload=function(){setTimeout(function(){window.print();},250);}<\/scr'+'ipt></body></html>';
+  var w=window.open('','_blank');if(!w){toast('Permite ventanas emergentes para imprimir','warn');return;}
+  w.document.open();w.document.write(html);w.document.close();
+}
+
+/* command palette (Ctrl/Cmd + K) */
+var CMDK={items:[],filt:[],sel:0};
+function cmdkItems(){
+  var items=[];
+  [['tracker','Ir a Tracker','ti-layout-kanban'],['exec','Ir a Ejecutivo (Torre de riesgos)','ti-chart-dots'],['dept','Ir a Por Departamento','ti-building'],['email','Ir a Email Intelligence','ti-mail']].forEach(function(v){items.push({label:v[1],icon:v[2],run:function(){setTab(v[0]);}});});
+  items.push({label:'Modo proyector / War Room',icon:'ti-device-tv',run:function(){startWarRoom();}});
+  items.push({label:'Escanear Outlook',icon:'ti-mail-search',run:function(){triggerOutlookScan();}});
+  items.push({label:'Imprimir resumen ejecutivo (PDF)',icon:'ti-printer',run:function(){setTab('exec');setTimeout(execPrint,250);}});
+  items.push({label:'Nueva tarea',icon:'ti-plus',run:function(){openTaskEditor('');}});
+  ['arranques','expansiones','rollouts'].forEach(function(cat){(DATA.clients[cat]||[]).forEach(function(c){items.push({label:c.name,sub:(TYPE_LABELS[cat]||cat),icon:'ti-building-warehouse',run:(function(nm,ct){return function(){selClient(nm,ct);};})(c.name,cat)});});});
+  return items;
+}
+function openCmdk(){CMDK.items=cmdkItems();CMDK.sel=0;var b=document.getElementById('cmdkBg');if(!b)return;b.classList.add('show');var i=document.getElementById('cmdk-inp');i.value='';cmdkFilter();setTimeout(function(){i.focus();},30);}
+function closeCmdk(){var b=document.getElementById('cmdkBg');if(b)b.classList.remove('show');}
+function cmdkFilter(){var q=(document.getElementById('cmdk-inp').value||'').toLowerCase().trim();CMDK.filt=CMDK.items.filter(function(it){return !q||it.label.toLowerCase().indexOf(q)>=0||(it.sub&&it.sub.toLowerCase().indexOf(q)>=0);});if(CMDK.sel>=CMDK.filt.length)CMDK.sel=Math.max(0,CMDK.filt.length-1);cmdkRender();}
+function cmdkRender(){var l=document.getElementById('cmdk-list');if(!l)return;l.innerHTML=CMDK.filt.map(function(it,i){return '<div class="cmdk-item'+(i===CMDK.sel?' sel':'')+'" onclick="cmdkRun('+i+')" onmousemove="cmdkHover('+i+')"><i class="ti '+it.icon+'"></i><span class="cmdk-lbl">'+htmlEsc(it.label)+'</span>'+(it.sub?'<span class="cmdk-sub">'+htmlEsc(it.sub)+'</span>':'')+'</div>';}).join('')||'<div class="cmdk-empty">Sin resultados</div>';}
+function cmdkHover(i){if(i!==CMDK.sel){CMDK.sel=i;cmdkRender();}}
+function cmdkRun(i){var it=CMDK.filt[i];if(!it)return;closeCmdk();setTimeout(it.run,0);}
+function cmdkKey(e){if(e.key==='ArrowDown'){e.preventDefault();CMDK.sel=Math.min(CMDK.filt.length-1,CMDK.sel+1);cmdkRender();}else if(e.key==='ArrowUp'){e.preventDefault();CMDK.sel=Math.max(0,CMDK.sel-1);cmdkRender();}else if(e.key==='Enter'){e.preventDefault();cmdkRun(CMDK.sel);}else if(e.key==='Escape'){e.preventDefault();closeCmdk();}}
+document.addEventListener('keydown',function(e){if((e.metaKey||e.ctrlKey)&&(e.key==='k'||e.key==='K')){e.preventDefault();openCmdk();}});
 </script>
 
 </body>
