@@ -2,7 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<!-- PWA / app en celular -->
+<meta name="theme-color" content="#C0272D">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TACNA Ops">
 <title>TACNA Operations Center</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -35,6 +43,7 @@ html,body{height:100%;font-family:var(--font);background:#ECEEF2;color:var(--gra
 .brand-icon{width:30px;height:30px;background:rgba(255,255,255,.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;border:1px solid rgba(255,255,255,.2)}
 .brand-name{font-size:13px;font-weight:700;letter-spacing:.5px;line-height:1}
 .brand-sub{font-size:10px;opacity:.6;margin-top:1px}
+.brand-logo{height:19px;width:auto;display:block}
 .topbar-nav{display:flex;height:100%;flex:1}
 .tnav{display:flex;align-items:center;gap:5px;padding:0 11px;font-size:12.5px;font-weight:500;cursor:pointer;opacity:.65;border-bottom:2px solid transparent;transition:all var(--tr);white-space:nowrap;color:#fff;text-decoration:none}
 .tnav:hover{opacity:.9;background:rgba(255,255,255,.07)}
@@ -340,9 +349,10 @@ html,body{height:100%;font-family:var(--font);background:#ECEEF2;color:var(--gra
 
 <!-- TOPBAR -->
 <div class="topbar">
+  <button class="menu-btn" id="menu-btn" onclick="toggleSidebar()" aria-label="Menú clientes"><i class="ti ti-menu-2"></i></button>
   <div class="brand">
-    <div class="brand-icon">T</div>
-    <div><div class="brand-name">TACNA</div><div class="brand-sub">Operations Center</div></div>
+    <img class="brand-logo" src="wordmark-white.png" alt="TACNA">
+    <div class="brand-sub">Operations Center</div>
   </div>
   <nav class="topbar-nav">
     <a class="tnav active" id="nt-tracker" onclick="setTab('tracker')"><i class="ti ti-layout-kanban"></i>Tracker</a>
@@ -394,6 +404,7 @@ html,body{height:100%;font-family:var(--font);background:#ECEEF2;color:var(--gra
 
 <!-- BODY -->
 <div class="body">
+<div class="mobile-overlay" id="mobile-overlay" onclick="closeSidebar()"></div>
 <div class="sidebar"><div class="sidebar-inner" id="sidebar-inner"></div></div>
 <div class="main">
   <div class="search-bar">
@@ -1390,7 +1401,81 @@ document.addEventListener('click',function(e){if(e.target&&e.target.id==='riskEd
 .cmdk-empty{padding:18px;text-align:center;color:var(--gray400);font-size:13px}
 .cmdk-foot{display:flex;gap:14px;padding:9px 16px;border-top:1px solid var(--gray100);font-size:10px;color:var(--gray400)}
 
-@media(max-width:760px){.kanban{grid-template-columns:1fr}.te-2col{grid-template-columns:1fr}}
+/* ============ RESPONSIVE / MÓVIL ============ */
+.menu-btn{display:none}
+.mobile-overlay{display:none}
+
+/* Tablet */
+@media(max-width:900px){
+  .statsbar{flex-wrap:wrap}
+  .stat{padding:7px 14px}
+}
+
+/* Teléfonos */
+@media(max-width:768px){
+  html,body{font-size:13px}
+  .app{height:100vh;height:100dvh}
+
+  /* TOPBAR: marca + iconos arriba, pestañas en franja deslizable abajo */
+  .topbar{height:auto;min-height:48px;flex-wrap:wrap;padding:6px 10px;padding-top:max(6px,env(safe-area-inset-top));row-gap:6px}
+  .menu-btn{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border:none;background:rgba(255,255,255,.18);color:#fff;border-radius:8px;font-size:18px;cursor:pointer;flex-shrink:0;margin-right:8px}
+  .brand{padding-right:10px;margin-right:auto;border-right:none}
+  .brand-sub{display:none}
+  .topbar-right{gap:4px;order:2}
+  .topbar-right .ar-chip,.conn-badge span,.outlook-btn span{display:none}
+  .outlook-btn{padding:6px 8px;border-radius:8px}
+  .conn-badge{padding:5px 7px}
+  .topbar-nav{order:3;flex-basis:100%;width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;border-top:1px solid rgba(255,255,255,.12);padding-top:4px;scrollbar-width:none}
+  .topbar-nav::-webkit-scrollbar{display:none}
+  .tnav{padding:6px 11px;font-size:12px;flex-shrink:0}
+
+  /* STATSBAR: grid 4×2 que cabe */
+  .statsbar{display:grid;grid-template-columns:repeat(4,1fr);padding:0;gap:0}
+  .stat{padding:6px 4px;min-width:0;border-bottom:1px solid var(--gray100)}
+  .stat-val{font-size:18px}
+  .stat-lbl{font-size:8px;letter-spacing:.2px}
+  .stat-spark,.stat-bar{display:none}
+
+  /* SIDEBAR -> drawer deslizable */
+  .body{position:relative}
+  .sidebar{position:fixed;top:0;left:0;height:100%;height:100dvh;width:82%;max-width:300px;z-index:120;transform:translateX(-100%);transition:transform .25s cubic-bezier(.4,0,.2,1);box-shadow:var(--shadow-xl)}
+  .sidebar.mobile-open{transform:translateX(0)}
+  .mobile-overlay{display:block;position:fixed;inset:0;background:rgba(17,24,39,.45);z-index:110;opacity:0;pointer-events:none;transition:opacity .25s}
+  .mobile-overlay.show{opacity:1;pointer-events:auto}
+  .main{width:100%}
+
+  /* SEARCH BAR */
+  .search-bar{flex-wrap:wrap;padding:8px 10px;gap:6px}
+  .search-field{flex-basis:100%;order:1}
+  .scope-sel{flex:1;order:2}
+  .search-btn{order:3}
+
+  /* HEADER DE CONTENIDO */
+  .content-hdr{flex-direction:column;align-items:stretch;gap:8px}
+  .content-hdr-right{flex-direction:column;align-items:stretch;gap:8px}
+  .filter-pills{overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch;padding-bottom:2px;scrollbar-width:none}
+  .filter-pills::-webkit-scrollbar{display:none}
+  .filter-pills .pill{flex-shrink:0}
+  .board{padding:10px}
+
+  /* COCKPIT EJECUTIVO: colapsa columnas (vence estilos inline) */
+  #board div[style*="repeat(4,1fr)"]{grid-template-columns:repeat(2,1fr)!important}
+  #board div[style*="1fr 1fr"]{grid-template-columns:1fr!important}
+  .wr-kpis{grid-template-columns:repeat(2,1fr)!important}
+
+  /* MODALES / CMDK caben en pantalla */
+  .modal{width:auto!important;max-width:94vw;margin:0 12px}
+  .cmdk{width:94vw}
+  .kanban{grid-template-columns:1fr}
+  .te-2col{grid-template-columns:1fr}
+  .kw-grid{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}
+}
+
+/* Teléfonos chicos */
+@media(max-width:380px){
+  .stat-val{font-size:16px}
+  .tnav{font-size:11px;padding:6px 8px}
+}
 </style>
 <script>
 /* ===== v2 behavior ===== */
@@ -1572,6 +1657,14 @@ function cmdkHover(i){if(i!==CMDK.sel){CMDK.sel=i;cmdkRender();}}
 function cmdkRun(i){var it=CMDK.filt[i];if(!it)return;closeCmdk();setTimeout(it.run,0);}
 function cmdkKey(e){if(e.key==='ArrowDown'){e.preventDefault();CMDK.sel=Math.min(CMDK.filt.length-1,CMDK.sel+1);cmdkRender();}else if(e.key==='ArrowUp'){e.preventDefault();CMDK.sel=Math.max(0,CMDK.sel-1);cmdkRender();}else if(e.key==='Enter'){e.preventDefault();cmdkRun(CMDK.sel);}else if(e.key==='Escape'){e.preventDefault();closeCmdk();}}
 document.addEventListener('keydown',function(e){if((e.metaKey||e.ctrlKey)&&(e.key==='k'||e.key==='K')){e.preventDefault();openCmdk();}});
+
+/* ===== Drawer móvil (sidebar de clientes) ===== */
+function toggleSidebar(){var s=document.querySelector('.sidebar'),o=document.getElementById('mobile-overlay');if(!s)return;var open=s.classList.toggle('mobile-open');if(o)o.classList.toggle('show',open);}
+function closeSidebar(){var s=document.querySelector('.sidebar'),o=document.getElementById('mobile-overlay');if(s)s.classList.remove('mobile-open');if(o)o.classList.remove('show');}
+/* cerrar el drawer al seleccionar un cliente (no al usar +/x) */
+(function(){var si=document.getElementById('sidebar-inner');if(si)si.addEventListener('click',function(e){if(window.innerWidth<=768&&e.target.closest('.sb-item'))closeSidebar();});})();
+/* Escape cierra el drawer */
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSidebar();});
 </script>
 
 </body>
