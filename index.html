@@ -489,7 +489,7 @@ let curClient=null,curCat=null,deptFilter="all";
 let collapsed={},arTimer=null,currentTab="tracker";
 let isConnected=false,isSearchMode=false;
 let boardView='kanban';
-const WIP_LIMIT=5;
+const WIP_LIMIT=12;
 const OWNERS=[{e:'',n:'Sin asignar'},{e:'dlopez@tacna.net',n:'D. Lopez'},{e:'julopez@tacna.net',n:'J. Lopez'},{e:'igarcia@tacna.net',n:'I. Garcia'},{e:'jpardo@tacna.net',n:'J. Pardo'},{e:'fchinchillas@tacna.net',n:'F. Chinchillas'},{e:'dmurillo@tacna.net',n:'D. Murillo'},{e:'pjimenez@tacna.net',n:'P. Jimenez'}];
 const DEPT_COLOR={CONTABILIDAD:'--g',COMPLIANCE:'--p','IMPORT/EXPORT':'--a',IT:'--gray500',INVENTARIOS:'--gray700',EHS:'--r',HR:'--b'};
 var TASK_EDIT=null,KB_DRAG=null;
@@ -546,6 +546,27 @@ function cleanData(data){
         });
       });
     });
+  });
+  return mergeDupClients(data);
+}
+function mergeDupClients(data){
+  if(!data||!data.clients)return data;
+  ['arranques','expansiones','rollouts'].forEach(function(cat){
+    var list=data.clients[cat]||[],byName={},out=[];
+    list.forEach(function(c){
+      if(!c)return;
+      var k=norm(c.name);
+      if(!byName[k]){if(!c.tasks)c.tasks={};byName[k]=c;out.push(c);}
+      else{
+        var tgt=byName[k];if(!tgt.tasks)tgt.tasks={};
+        Object.keys(c.tasks||{}).forEach(function(dept){
+          if(!tgt.tasks[dept])tgt.tasks[dept]=[];
+          var seen={};tgt.tasks[dept].forEach(function(t){if(t&&t.id)seen[t.id]=1;});
+          (c.tasks[dept]||[]).forEach(function(t){if(!t)return;if(t.id&&seen[t.id])return;tgt.tasks[dept].push(t);});
+        });
+      }
+    });
+    data.clients[cat]=out;
   });
   return data;
 }
