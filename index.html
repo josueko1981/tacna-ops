@@ -116,6 +116,42 @@ html,body{height:100%;font-family:var(--font);background:#ECEEF2;color:var(--gra
 .sb-badge.gray{background:var(--gray200);color:var(--gray500)}
 .sb-del{opacity:0;font-size:10px;color:var(--gray400);cursor:pointer;padding:1px 3px;border-radius:3px;transition:all var(--tr);flex-shrink:0}
 .sb-del:hover{color:var(--r);background:var(--rl)}
+.sb-links{display:flex;align-items:center;gap:2px;flex-shrink:0}
+.sb-link{display:flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:4px;color:var(--gray400);font-size:12px;text-decoration:none;transition:all var(--tr);flex-shrink:0}
+.sb-link:hover{color:var(--b);background:var(--bl)}
+.sb-link.dz:hover{color:var(--p);background:var(--pl)}
+.clb{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 12px}
+.clb-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:var(--r-md);border:1px solid var(--gray200);background:var(--white);color:var(--gray700);font-size:12px;font-weight:600;text-decoration:none;box-shadow:var(--shadow-sm);transition:all var(--tr)}
+.clb-btn i{font-size:15px}
+.clb-btn.gantt:hover{border-color:var(--bm);color:var(--b);background:var(--bl)}
+.clb-btn.dz:hover{border-color:var(--pm);color:var(--p);background:var(--pl)}
+.lk-note{display:flex;gap:8px;align-items:flex-start;background:var(--gl);border:1px solid var(--gm);color:var(--gray700);font-size:11.5px;line-height:1.5;padding:9px 12px;margin:0 16px 4px;border-radius:var(--r-md)}
+.lk-note i{color:var(--g);font-size:15px;flex-shrink:0;margin-top:1px}
+.lk-tag{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:8px;vertical-align:middle}
+.lk-tag.base{background:var(--gray200);color:var(--gray600)}
+.lk-tag.local{background:var(--bl);color:var(--b);border:1px solid var(--bm)}
+.lk-tag.none{background:transparent;color:var(--gray400);border:1px dashed var(--gray300)}
+.lk-sec-lbl{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gray400);margin:14px 0 6px;padding-bottom:4px;border-bottom:1px solid var(--gray100)}
+.lk-row{padding:9px 10px;border:1px solid var(--gray200);border-radius:var(--r-md);margin-bottom:8px;background:var(--white)}
+.lk-row-hd{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.lk-row-nm{font-weight:700;color:var(--gray900);font-size:13px}
+.lk-fld{display:flex;align-items:center;gap:7px;margin:5px 0}
+.lk-fld-ico{width:20px;text-align:center;color:var(--gray400);font-size:14px;flex-shrink:0}
+.lk-fld-ico.gantt{color:var(--b)} .lk-fld-ico.dz{color:var(--p)}
+.lk-inp{flex:1;min-width:0;font-family:var(--font);font-size:11.5px;padding:6px 9px;border:1px solid var(--gray200);border-radius:7px;color:var(--gray800);background:var(--gray50);transition:all var(--tr)}
+.lk-inp:focus{outline:none;border-color:var(--b);background:#fff;box-shadow:0 0 0 3px var(--bl)}
+.lk-inp.dirty{border-color:var(--am);background:var(--al)}
+.lk-restore{flex-shrink:0;font-size:10px;font-weight:600;color:var(--gray500);background:var(--gray100);border:none;border-radius:6px;padding:5px 8px;cursor:pointer;transition:all var(--tr);white-space:nowrap}
+.lk-restore:hover{color:var(--r);background:var(--rl)}
+.lk-restore:disabled{opacity:.35;cursor:not-allowed}
+.lk-open{flex-shrink:0;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:6px;color:var(--gray400);text-decoration:none;border:1px solid var(--gray200)}
+.lk-open:hover{color:var(--g);border-color:var(--gm);background:var(--gl)}
+.lk-open.off{opacity:.3;pointer-events:none}
+.lk-save{background:var(--r);color:#fff;border:none;border-radius:var(--r-md);padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.lk-save:hover{background:var(--rdk)}
+.lk-cancel{background:var(--white);color:var(--gray600);border:1px solid var(--gray200);border-radius:var(--r-md);padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer}
+.lk-export{background:var(--white);color:var(--gray700);border:1px solid var(--gray300);border-radius:var(--r-md);padding:9px 14px;font-size:12px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.lk-export:hover{border-color:var(--b);color:var(--b);background:var(--bl)}
 .sb-divider{height:1px;background:var(--gray100);margin:8px 0}
 
 /* MAIN */
@@ -370,6 +406,7 @@ html,body{height:100%;font-family:var(--font);background:#ECEEF2;color:var(--gra
       <div class="conn-dot connecting" id="conn-dot"></div>
       <span id="conn-txt">Conectando...</span>
     </div>
+    <button class="icon-btn" onclick="openLinksModal()" title="Editar vínculos (Gantt / Digizen)"><i class="ti ti-link"></i></button>
     <button class="icon-btn" onclick="openCmdk()" title="Buscar / saltar (Ctrl+K)"><i class="ti ti-command"></i></button>
     <button class="icon-btn" onclick="startWarRoom()" title="Modo proyector / War Room"><i class="ti ti-device-tv"></i></button>
     <button class="icon-btn" id="refresh-btn" onclick="refresh()" title="Actualizar"><i class="ti ti-refresh" id="refresh-ico"></i></button>
@@ -465,6 +502,28 @@ html,body{height:100%;font-family:var(--font);background:#ECEEF2;color:var(--gra
   </div>
 </div>
 
+<!-- EDITOR DE VÍNCULOS (Gantt / Digizen) -->
+<div class="modal-bg" id="links-modal-bg" onclick="if(event.target===this)closeLinksModal()">
+  <div class="modal" style="width:680px;max-width:96vw">
+    <div class="modal-hdr">
+      <div class="modal-title"><i class="ti ti-link" style="margin-right:6px"></i>Vínculos por cliente</div>
+      <button class="modal-close" onclick="closeLinksModal()">&#10005;</button>
+    </div>
+    <div class="lk-note">
+      <i class="ti ti-shield-check"></i>
+      <span>Las ligas <b>base</b> viven en el código (git): se ven para todo el equipo y <b>no se pueden borrar desde aquí</b>. Lo que edites en esta ventana se guarda solo en <b>este equipo</b> (etiqueta <span class="lk-tag local">local</span>) hasta que uses <b>Exportar</b> y subas el archivo. Vaciar un campo no borra la liga base: la vuelve a mostrar.</span>
+    </div>
+    <div class="modal-body" id="links-modal-body" style="max-height:56vh;overflow-y:auto"></div>
+    <div class="modal-ftr" style="display:flex;gap:8px;justify-content:space-between;align-items:center;flex-wrap:wrap">
+      <button class="lk-export" onclick="exportLinkBlock()"><i class="ti ti-clipboard-text"></i> Exportar para subir a git</button>
+      <div style="display:flex;gap:8px">
+        <button class="lk-cancel" onclick="closeLinksModal()">Cerrar</button>
+        <button class="lk-save" onclick="saveLinksModal()"><i class="ti ti-device-floppy"></i> Guardar (este equipo)</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="cmdk-bg" id="cmdkBg" onclick="if(event.target===this)closeCmdk()">
   <div class="cmdk">
     <div class="cmdk-input-wrap"><i class="ti ti-search"></i><input id="cmdk-inp" placeholder="Salta a un cliente, vista o accion..." autocomplete="off" oninput="cmdkFilter()" onkeydown="cmdkKey(event)"></div>
@@ -485,6 +544,69 @@ let KEYWORDS=["pedimento","COO","HTS","broker","aduana","REPSE","IMMEX","RFC","S
 let SCAN_CANDIDATES=[];
 let API_URL=API_URL_STORED;
 let DATA={clients:{arranques:[],expansiones:[],rollouts:[]}};
+
+/* ============================================================
+   HIPERVÍNCULOS POR CLIENTE  ·  Centro de Comando
+   Pega aquí la URL del Gantt y/o de Digizen de cada cliente.
+   - Deja '' (vacío) si ese cliente no tiene ese vínculo: el icono
+     simplemente no aparece.
+   - La llave debe ir en MAYÚSCULAS tal como aparece en el sidebar
+     (MagnaFlow va bajo VIDRIOS; RYTE va bajo MERCH FARM).
+   - Si algún día mueves estas URLs a la hoja CLIENTES, el dashboard
+     usará c.gantt / c.digizen automáticamente y este mapa queda de
+     respaldo. No hay que cambiar nada más.
+   ============================================================ */
+const CLIENT_LINKS={
+  // ---- ARRANQUES ----
+  'VIDRIOS':       {gantt:'https://docs.google.com/spreadsheets/d/1p8vqwrlEtxm0Xa7BRoTXuuIEjn27PJ6PqdAkIMrNYsQ/edit?gid=542154016#gid=542154016', digizen:'https://digizen.tacna.net/index.php/s/mRygAcEAo4XREnB'},   // MagnaFlow
+  'MICROMETALS':   {gantt:'https://docs.google.com/spreadsheets/d/1wBrKHMIs8oaJmng1IKt_BaKfdzXKml8Ppbsc5QO5YbM/edit?gid=542154016#gid=542154016', digizen:'https://digizen.tacna.net/index.php/s/8o8WAYiz9G7tjbH'},
+  'CONESYS':       {gantt:'https://docs.google.com/spreadsheets/d/1FCEDcaG5VEdADVtRnNwtfSE2Z3asNWXO71BrbMYyV1o/edit?gid=1462354976#gid=1462354976', digizen:'https://digizen.tacna.net/index.php/apps/files/?dir=/Start%20ups/2026/CONESYS&fileid=2134120'},
+  'BAUSCH':        {gantt:'https://docs.google.com/spreadsheets/d/1Z8jTzz8k5v9qv6Gs1-qXxBZQFo6RCubmDgWpXPBoMSU/edit?gid=542154016#gid=542154016', digizen:'https://digizen.tacna.net/index.php/s/GCyLj3WAXFZomYL'},
+  'TODCO':         {gantt:'https://docs.google.com/spreadsheets/d/16bODMRSFZEDZh1H69i7li66la4VCbhu_7zUr-mO8viE/edit?gid=542154016#gid=542154016', digizen:'https://digizen.tacna.net/index.php/s/jJjiJM7msyiZKDa'},
+  'VTECH':         {gantt:'https://docs.google.com/spreadsheets/d/1NRPZHwgiguHqfAMhl3i__3kPYcgSVjvuTe5b_xeM19k/edit?gid=542154016#gid=542154016', digizen:'https://digizen.tacna.net/index.php/s/ETdjD4KzBQb7jpY'},
+  'WS DISPLAY':    {gantt:'https://docs.google.com/spreadsheets/d/1sm9He6ag-CfsxDob_CEbUmrtsdWbZ0cGrQSLQqihmCE/edit?gid=2078029792#gid=2078029792', digizen:'https://digizen.tacna.net/index.php/s/KSLWJi9fSwQ9FAg'},
+  'TINY HOUSE':    {gantt:'', digizen:''},
+  // ---- EXPANSIONES ----
+  'THERMOFAB':     {gantt:'', digizen:''},   // pendiente: agrega el Gantt desde el editor de vínculos
+  'SEAT COVERS':   {gantt:'https://docs.google.com/spreadsheets/d/1jqoTtizUJaVbj_WeMnlhdXFxxx2qa2S-HMiwnJK2CoA/edit?gid=542154016#gid=542154016', digizen:''},
+  'GOODYEAR':      {gantt:'https://docs.google.com/spreadsheets/d/1xpoUrBx70Z7nAAiOuiL6A598pwTy3JjMZvGQ9VuR7As/edit?gid=542154016#gid=542154016', digizen:''},
+  // ---- ROLL OUTS ----
+  'UNIMACTS':      {gantt:'https://docs.google.com/spreadsheets/d/1Aeq6WrBbGBrKQt4HR7DoVUnZ1LrurvlYt0PelfEgmK4/edit?gid=0#gid=0', digizen:''},
+  'VINVENTIONS':   {gantt:'https://docs.google.com/spreadsheets/d/1SKlZJ15ZbEvQ8j1ALGZ3DBOfLBUipZsDWlqqlfCSO9s/edit?gid=0#gid=0', digizen:''},
+  'SPEKTRUM':      {gantt:'https://docs.google.com/spreadsheets/d/12XUaveC3W9Ga3VXrC69C5UFGZk23_erqAXT2BWqcsb4/edit?gid=0#gid=0', digizen:''},
+  'MWW':           {gantt:'https://docs.google.com/spreadsheets/d/1Zy1lEgZCjfdzE1yuOTyTUlMNm1vYI_NjhBXZKY1wKNs/edit?gid=0#gid=0', digizen:''},
+  'MERCH FARM':    {gantt:'https://docs.google.com/spreadsheets/d/1aCPMQASoR4RFQN9fy9rHPotWE2wDCe7XwJXeIMHbwWo/edit?gid=0#gid=0', digizen:''}    // RYTE
+};
+/* Capa de ediciones locales (este equipo). Se guardan en localStorage y se
+   aplican ENCIMA del mapa base de git. Nunca borran el mapa base: si un override
+   queda vacío, se vuelve a mostrar la liga base. Así nadie puede borrar por
+   error una liga canónica desde la interfaz: a lo más la re-apunta localmente. */
+var LINK_OVERRIDES=(function(){
+  try{return JSON.parse(localStorage.getItem('tacna_link_overrides')||'{}')||{};}
+  catch(e){return {};}
+})();
+function saveLinkOverrides(){
+  try{localStorage.setItem('tacna_link_overrides',JSON.stringify(LINK_OVERRIDES));return true;}
+  catch(e){return false;}
+}
+// Resuelve los vínculos de un cliente.
+// Precedencia: edición local (override) > hoja (c.gantt, futuro) > mapa base (git).
+// Un valor vacío NO sobrescribe: cae al siguiente nivel.
+function getClientLinks(c){
+  var key=norm(c&&c.name||'');
+  var ov=LINK_OVERRIDES[key]||{};
+  var sheet={gantt:(c&&c.gantt)||'', digizen:(c&&c.digizen)||''};
+  var base=CLIENT_LINKS[key]||{};
+  var pick=function(f){return String(ov[f]||sheet[f]||base[f]||'').trim();};
+  return {gantt:pick('gantt'), digizen:pick('digizen')};
+}
+// ¿La liga que se ve viene de una edición local o de git? (para el editor)
+function linkSourceTag(name,field){
+  var key=norm(name||''); var ov=LINK_OVERRIDES[key]||{};
+  if(String(ov[field]||'').trim())return 'local';
+  if(String((CLIENT_LINKS[key]||{})[field]||'').trim())return 'base';
+  return 'none';
+}
 let curClient=null,curCat=null,deptFilter="all";
 let collapsed={},arTimer=null,currentTab="tracker";
 let isConnected=false,isSearchMode=false;
@@ -559,6 +681,8 @@ function mergeDupClients(data){
       if(!byName[k]){if(!c.tasks)c.tasks={};byName[k]=c;out.push(c);}
       else{
         var tgt=byName[k];if(!tgt.tasks)tgt.tasks={};
+        if(!tgt.gantt&&c.gantt)tgt.gantt=c.gantt;
+        if(!tgt.digizen&&c.digizen)tgt.digizen=c.digizen;
         Object.keys(c.tasks||{}).forEach(function(dept){
           if(!tgt.tasks[dept])tgt.tasks[dept]=[];
           var seen={};tgt.tasks[dept].forEach(function(t){if(t&&t.id)seen[t.id]=1;});
@@ -632,7 +756,11 @@ function buildSidebar(){
       var worst=0;Object.keys(c.tasks||{}).forEach(function(dp){(c.tasks[dp]||[]).forEach(function(t){if(t.s==='done')return;var r=lssSev(t)*lssProb(t);if(r>worst)worst=r;});});var dotc=worst>=15?'r':worst>=8?'a':worst>0?'g':'gray';
       html+='<div class="sb-item'+(isActive?' active':'')+'" id="si-'+idSafe(c.name)+'" onclick="selClient(\''+esc(c.name)+'\',\''+key+'\')">';
       html+='<span class="sb-dot '+dotc+'" title="Riesgo maximo abierto S\u00d7P: '+worst+'"></span><span class="sb-item-name">'+c.name+'</span>';
+      var _lk=getClientLinks(c),_lh='';
+      if(_lk.gantt)_lh+='<a class="sb-link" href="'+htmlEsc(_lk.gantt)+'" target="_blank" rel="noopener" title="Gantt · '+htmlEsc(c.name)+'" onclick="event.stopPropagation()"><i class="ti ti-timeline"></i></a>';
+      if(_lk.digizen)_lh+='<a class="sb-link dz" href="'+htmlEsc(_lk.digizen)+'" target="_blank" rel="noopener" title="Digizen · documentos de '+htmlEsc(c.name)+'" onclick="event.stopPropagation()"><i class="ti ti-cloud"></i></a>';
       html+='<div style="display:flex;align-items:center;gap:3px">';
+      if(_lh)html+='<span class="sb-links">'+_lh+'</span>';
       if(hasCands>0)html+='<span style="font-size:9px;padding:1px 5px;border-radius:8px;background:#1D4ED8;color:#fff;font-weight:700">'+hasCands+'✉</span>';
       html+='<span class="sb-badge '+(open>0?'r':cnt(c)>0?'g':'gray')+'">'+(open>0?open:cnt(c)>0?'':'—')+'</span>';
       html+='<span class="sb-del" onclick="event.stopPropagation();delClient(\''+esc(c.name)+'\',\''+key+'\')">x</span></div></div>';
@@ -746,13 +874,116 @@ function scanPanelHtml(){
   });
   return h+'</div></div>';
 }
+function clientLinkBar(){
+  if(!curClient)return '';
+  var lk=getClientLinks(curClient);
+  if(!lk.gantt&&!lk.digizen)return '';
+  var h='<div class="clb">';
+  if(lk.gantt)h+='<a class="clb-btn gantt" href="'+htmlEsc(lk.gantt)+'" target="_blank" rel="noopener"><i class="ti ti-timeline"></i>Gantt</a>';
+  if(lk.digizen)h+='<a class="clb-btn dz" href="'+htmlEsc(lk.digizen)+'" target="_blank" rel="noopener"><i class="ti ti-cloud"></i>Digizen</a>';
+  h+='</div>';
+  return h;
+}
+/* ===== Editor de vínculos (Gantt / Digizen) ===== */
+function openLinksModal(){renderLinksModalBody();document.getElementById('links-modal-bg').classList.add('show');}
+function closeLinksModal(){document.getElementById('links-modal-bg').classList.remove('show');}
+function lkClientsByCat(){
+  var cats=[['arranques','Arranques'],['expansiones','Expansiones'],['rollouts','Roll Outs']];
+  var seen={},out=[];
+  cats.forEach(function(p){
+    var names=[];
+    (DATA.clients[p[0]]||[]).forEach(function(c){var k=norm(c.name);if(!seen[k]){seen[k]=1;names.push(c.name);}});
+    out.push({key:p[0],label:p[1],names:names});
+  });
+  return out;
+}
+function renderLinksModalBody(){
+  var groups=lkClientsByCat(),html='';
+  groups.forEach(function(g){
+    if(!g.names.length)return;
+    html+='<div class="lk-sec-lbl">'+g.label+'</div>';
+    g.names.forEach(function(nm){
+      var lk=getClientLinks({name:nm});
+      var sg=linkSourceTag(nm,'gantt'),sd=linkSourceTag(nm,'digizen');
+      var idg=idSafe(nm)+'__g',idd=idSafe(nm)+'__d';
+      var ovG=String((LINK_OVERRIDES[norm(nm)]||{}).gantt||'').trim();
+      var ovD=String((LINK_OVERRIDES[norm(nm)]||{}).digizen||'').trim();
+      html+='<div class="lk-row">';
+      html+='<div class="lk-row-hd"><span class="lk-row-nm">'+htmlEsc(nm)+'</span></div>';
+      // Gantt
+      html+='<div class="lk-fld"><span class="lk-fld-ico gantt" title="Gantt"><i class="ti ti-timeline"></i></span>';
+      html+='<input class="lk-inp" id="'+idg+'" data-name="'+htmlEsc(nm)+'" data-field="gantt" placeholder="URL del Gantt..." value="'+htmlEsc(lk.gantt)+'" oninput="lkDirty(this)">';
+      html+='<span class="lk-tag '+sg+'">'+(sg==='local'?'local':sg==='base'?'base':'—')+'</span>';
+      html+='<button class="lk-restore" onclick="lkRestore(\''+esc(nm)+'\',\'gantt\')" '+(ovG?'':'disabled')+' title="Quitar mi edición y volver a la liga base">Restaurar</button>';
+      html+='<a class="lk-open'+(lk.gantt?'':' off')+'" href="'+htmlEsc(lk.gantt||'#')+'" target="_blank" rel="noopener" title="Abrir"><i class="ti ti-external-link"></i></a></div>';
+      // Digizen
+      html+='<div class="lk-fld"><span class="lk-fld-ico dz" title="Digizen"><i class="ti ti-cloud"></i></span>';
+      html+='<input class="lk-inp" id="'+idd+'" data-name="'+htmlEsc(nm)+'" data-field="digizen" placeholder="URL de Digizen..." value="'+htmlEsc(lk.digizen)+'" oninput="lkDirty(this)">';
+      html+='<span class="lk-tag '+sd+'">'+(sd==='local'?'local':sd==='base'?'base':'—')+'</span>';
+      html+='<button class="lk-restore" onclick="lkRestore(\''+esc(nm)+'\',\'digizen\')" '+(ovD?'':'disabled')+' title="Quitar mi edición y volver a la liga base">Restaurar</button>';
+      html+='<a class="lk-open'+(lk.digizen?'':' off')+'" href="'+htmlEsc(lk.digizen||'#')+'" target="_blank" rel="noopener" title="Abrir"><i class="ti ti-external-link"></i></a></div>';
+      html+='</div>';
+    });
+  });
+  document.getElementById('links-modal-body').innerHTML=html||'<div style="padding:20px;color:var(--gray400);font-size:12px">Sin clientes cargados todavía.</div>';
+}
+function lkDirty(inp){inp.classList.add('dirty');}
+function lkRestore(name,field){
+  var k=norm(name); if(LINK_OVERRIDES[k]){delete LINK_OVERRIDES[k][field]; if(!Object.keys(LINK_OVERRIDES[k]).length)delete LINK_OVERRIDES[k];}
+  saveLinkOverrides();renderLinksModalBody();buildSidebar();if(curClient)renderBoard();
+  toast('Restaurado a la liga base de '+name);
+}
+function saveLinksModal(){
+  var inps=document.querySelectorAll('#links-modal-body .lk-inp');
+  var reverted=0,changed=0;
+  inps.forEach(function(inp){
+    var nm=inp.getAttribute('data-name'),field=inp.getAttribute('data-field'),k=norm(nm);
+    var val=String(inp.value||'').trim();
+    var base=String((CLIENT_LINKS[k]||{})[field]||'').trim();
+    if(!LINK_OVERRIDES[k])LINK_OVERRIDES[k]={};
+    if(val===''){ // vaciar: no destruye base, sólo quita override
+      if((LINK_OVERRIDES[k][field]||'')!==''){changed++;}
+      delete LINK_OVERRIDES[k][field];
+      if(base)reverted++;
+    } else if(val===base){ // igual a base: no hace falta override
+      if((LINK_OVERRIDES[k][field]||'')!==''){changed++;}
+      delete LINK_OVERRIDES[k][field];
+    } else { // edición real
+      if((LINK_OVERRIDES[k][field]||'')!==val){changed++;}
+      LINK_OVERRIDES[k][field]=val;
+    }
+    if(LINK_OVERRIDES[k]&&!Object.keys(LINK_OVERRIDES[k]).length)delete LINK_OVERRIDES[k];
+  });
+  var ok=saveLinkOverrides();
+  buildSidebar();if(curClient)renderBoard();renderLinksModalBody();
+  if(!ok){toast('No se pudo guardar (almacenamiento bloqueado)','err');return;}
+  var msg=changed?('Vínculos guardados ('+changed+' cambio'+(changed>1?'s':'')+')'):'Sin cambios';
+  if(reverted)msg+=' · '+reverted+' campo'+(reverted>1?'s':'')+' volvió a la liga base';
+  toast(msg);
+}
+function exportLinkBlock(){
+  // Construye el bloque CLIENT_LINKS fusionando base + ediciones locales, listo para pegar en git
+  var keys={};Object.keys(CLIENT_LINKS).forEach(function(k){keys[k]=1;});Object.keys(LINK_OVERRIDES).forEach(function(k){keys[k]=1;});
+  var lines=Object.keys(keys).sort().map(function(k){
+    var base=CLIENT_LINKS[k]||{},ov=LINK_OVERRIDES[k]||{};
+    var g=String(ov.gantt!==undefined&&ov.gantt!==''?ov.gantt:base.gantt||'').trim();
+    var d=String(ov.digizen!==undefined&&ov.digizen!==''?ov.digizen:base.digizen||'').trim();
+    var gg=g.replace(/'/g,"\\'"),dd=d.replace(/'/g,"\\'");
+    return "  '"+k+"': {gantt:'"+gg+"', digizen:'"+dd+"'}";
+  });
+  var block="const CLIENT_LINKS={\n"+lines.join(",\n")+"\n};";
+  var done=function(){toast('Bloque CLIENT_LINKS copiado · pégalo en index.html y sube a git para hacerlo permanente y compartido');};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(block).then(done,function(){lkFallbackCopy(block);done();});}
+  else{lkFallbackCopy(block);done();}
+}
+function lkFallbackCopy(t){try{var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}catch(e){}}
 function renderBoard(){
   if(!curClient){
     document.getElementById('board').innerHTML='<div class="empty-state"><div class="empty-icon"><i class="ti ti-layout-kanban"></i></div><div class="empty-title">Selecciona un cliente</div><div class="empty-sub">Elige un cliente del panel izquierdo</div></div>';
     return;
   }
   var _bvt=document.getElementById('board-view-toggle');if(_bvt)_bvt.style.display=(currentTab==='tracker')?'flex':'none';
-  var html=scanPanelHtml();
+  var html=clientLinkBar()+scanPanelHtml();
   html+=(boardView==='kanban')?renderKanban():renderLista();
   document.getElementById('board').innerHTML=html||'<div class="empty-state"><div class="empty-icon"><i class="ti ti-circle-check"></i></div><div class="empty-title">Sin tareas</div><div class="empty-sub">Agrega tareas con el boton + Nueva tarea</div></div>';
 }
@@ -1671,6 +1902,7 @@ var CMDK={items:[],filt:[],sel:0};
 function cmdkItems(){
   var items=[];
   [['tracker','Ir a Tracker','ti-layout-kanban'],['exec','Ir a Ejecutivo (Torre de riesgos)','ti-chart-dots'],['dept','Ir a Por Departamento','ti-building'],['email','Ir a Email Intelligence','ti-mail']].forEach(function(v){items.push({label:v[1],icon:v[2],run:function(){setTab(v[0]);}});});
+  items.push({label:'Editar vínculos (Gantt / Digizen)',icon:'ti-link',run:function(){openLinksModal();}});
   items.push({label:'Modo proyector / War Room',icon:'ti-device-tv',run:function(){startWarRoom();}});
   items.push({label:'Escanear Outlook',icon:'ti-mail-search',run:function(){triggerOutlookScan();}});
   items.push({label:'Imprimir resumen ejecutivo (PDF)',icon:'ti-printer',run:function(){setTab('exec');setTimeout(execPrint,250);}});
